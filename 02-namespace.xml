@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- on déclare docbook comme le vocabulaire par défaut -->
+<book version="5.1" xml:lang="fr" 
+    xmlns="https://tdg.docbook.org/tdg/5.1/" 
+    xmlns:dc="https://www.dublincore.org/specifications/dublin-core/dcmi-terms/" 
+    xmlns:xi="http://www.w3.org/2001/XInclude" 
+>
+    <!-- titre du document (vocabulaire book) -->
+    <title>Pourquoi j'ai mangé mon père</title>
+    <!-- Métadonnées du document Dublin Core -->
+    <dc:description>
+        <dc:title></dc:title>
+        <dc:creator>Nicolas Duflot</dc:creator>
+        <dc:date>2024-01-22T14:01:12.000</dc:date>
+    </dc:description>
+
+    <!-- Les informations sur le livre : vocabulaire docbook -->
+    <info>
+        <author>
+            <personname>
+                <firstname>Roy</firstname>
+                <lastname>Lewis</lastname>
+            </personname>
+        </author>
+    </info>
+
+    <!-- 
+        Il est possible de présenter l'introduction et les 4 premiers chapitres du livre
+        avec le vocabulaire XInclude
+    -->
+
+    <xi:include href="./book/intro.xml" />
+    <xi:include href="./book/ch-1.xml" />
+    <xi:include href="./book/ch-2.xml" />
+    <xi:include href="./book/ch-3.xml" />
+    <xi:include href="./book/ch-4.xml" />
+
+</book>

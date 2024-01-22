@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- on déclare docbook comme le vocabulaire par défaut -->
+<book version="5.1" xml:lang="fr" 
+    xmlns="https://tdg.docbook.org/tdg/5.1/" 
+    xmlns:dc="https://www.dublincore.org/specifications/dublin-core/dcmi-terms/" 
+>
+    <!-- Métadonnées du document Dublin Core -->
+    <dc:description>
+        <dc:title></dc:title>
+        <dc:creator>Nicolas Duflot</dc:creator>
+        <dc:date>2024-01-22T14:16:12.000</dc:date>
+    </dc:description>
+    <!-- titre du document (vocabulaire book) -->
+    <title>Introduction</title>
+</book>
