@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE description [
+    <!ELEMENT description (marque, modele, portes)>
+    <!ELEMENT marque (#PCDATA)>
+    <!ELEMENT modele (#PCDATA)>
+    <!ELEMENT portes (#PCDATA)>
+] >
+<description>
+    <marque>
+        Citroën
+    </marque>
+    <modele>
+        ZX
+    </modele>
+    <portes>
+        3
+    </portes>
+</description>

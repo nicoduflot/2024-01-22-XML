@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE parking [
+<!ENTITY dacia SYSTEM "./parking/dacia.xml">
+<!ENTITY renault SYSTEM "./parking/renault.xml">
+<!ENTITY citroen SYSTEM "./parking/citroen.xml">
+
+<!ELEMENT parking (voiture*)>
+    <!ELEMENT voiture (#PCDATA)>
+]>
+
+<parking>
+    <voiture>
+        %dacia;
+    </voiture>
+    <voiture>
+        %renault;
+    </voiture>
+    <voiture>
+        %citroen;
+    </voiture>
+</parking>
