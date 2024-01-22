@@ -289,4 +289,174 @@ Dublin Core
     <!ATTLIST album name CDATA #REQUIRED>
     <!ATTLIST album albulartistid IDREF #IMPLIED>
 
-<!-- ID ET IDREFS -->
+<!-- 
+    ID ET IDREFS 
+    Plusieurs éléments référencent le même élément
+-->
+
+<!ELEMENT artist EMPTY>
+    <!ATTLIST artist name CDATA #REQUIRED>
+    <!ATTLIST artist artistid ID #REQUIRED>
+
+<!ELEMENT album EMPTY>
+    <!ATTLIST album name CDATA #REQUIRED>
+    <!ATTLIST album albumartistid IDREFS #IMPLIED>
+
+<artist name="Korn" artistid="K-0001" />
+<artist name="Ice Cube" artistid="IC-0002" />
+<artist name="Incubus" artistid="I-0003" />
+<artist name="Limp Bizkit" artistid="LB-0004" />
+<artist name="Orgy" artistid="O-0005" />
+<album name="Follow the leader" albumartistids="K-0001" />
+<album name="Family values tour '98" albumartistids="K-0001 IC-0002 I-0003 LB-0004 O-0005" />
+
+<!-- attibuts avec des valeur par défaut -->
+<!ATTLIST contact personne (physique | morale) "physique">
+<!-- valide -->
+<contact personne="physique"></contact>
+<!-- valide -->
+<contact personne="morale"></contact>
+<!-- valide mais considéré par défaut comme physique -->
+<contact personne=""></contact>
+<!-- invalide -->
+<contact personne="toto"></contact>
+
+<!-- 
+    Les constantes : si l'attribut est présent dans la balise, il doit avoir une valeur définie.
+    S'il n'est pas présent dans la balise, il sera défini par défaut
+-->
+
+<!ATTLIST prix devise CDATA #FIXED "euro">
+<!-- valide -->
+<prix devise="euro">12</prix>
+<!-- valide la devise sera euro-->
+<prix>12</prix>
+<!-- invalide : la devise DOIT être "euro" -->
+<prix devise="USD">12</prix>
+
+<!-- 
+    Les entités :
+    Se sont des alias qui permettent de réutiliser des informations dans le document xml OU dans les DTD
+        - générales
+        - paramètres
+        - externes
+-->
+
+<!-- 
+    entité générale
+    Associe un alias à une information dans le document
+-->
+
+<!ENTITY dacia "DACIA">
+<!ENTITY renault "RENAULT">
+<!ENTITY citroen "CITROËN">
+
+<voiture>
+    <marque>&dacia;</marque>
+</voiture>
+<voiture>
+    <marque>&renault;</marque>
+</voiture>
+<voiture>
+    <marque>&citroen;</marque>
+</voiture>
+
+<!-- les xml est "interprété" comme suit -->
+<voiture>
+    <marque>DACIA</marque>
+</voiture>
+<voiture>
+    <marque>RENAULT</marque>
+</voiture>
+<voiture>
+    <marque>CITROËN</marque>
+</voiture>
+
+<!-- 
+    entité paramètre
+    Elle n'apparait que dans les DTD
+    Elle associe un alias à une partie de la déclaration dans les DTDT
+-->
+
+<voiture marque="Dacia" />
+<voiture marque="Renault" />
+<voiture marque="Citroën" />
+<!-- DTD Classique pour l'attribut marque -->
+<!ATTLIST voiture marque (Dacia|Renault|Citroën) #REQUIRED>
+
+<!-- avec l'entité paramètre -->
+<!ENTITY % listemarques "marque (Dacia|Renault|Citroën) #REQUIRED">
+<!ATTLIST voiture %listemarque>
+
+<!-- autre exemple -->
+<!ENTITY % identite "nom?, prenom?">
+<!ELEMENT contact (%identite, surnom)>
+<!ELEMENT personnage (%identite, acteur)>
+
+<!-- en DTD classique -->
+<!ELEMENT contact (nom?, prenom?, surnom)>
+<!ELEMENT personnage (nom?, prenom?, acteur)>
+
+<!-- 
+    entité externe 
+    Permet de faire une référence, comme les entité générale, à des information a utiliser dans le document xml.
+    Mais elles sont écrite dans un fichier externe
+-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!ENTITY dacia SYSTEM "./parking/dacia.xml">
+<!ENTITY renault SYSTEM "./parking/renault.xml">
+<!ENTITY citroen SYSTEM "./parking/citroen.xml">
+
+<!ELEMENT parking(voiture*)>
+
+<parking>
+    <voiture>
+        &dacia;
+    </voiture>
+    <voiture>
+        &renault;
+    </voiture>
+    <voiture>
+        &citroen;
+    </voiture>
+</parking>
+
+<!-- dacial.xml -->
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE description [
+    <!ELEMENT description (marque, modele, portes)>
+    <!ELEMENT marque (#PCDATA)>
+    <!ELEMENT modele (#PCDATA)>
+    <!ELEMENT portes (#PCDATA)>
+] >
+<description>
+    <marque>
+        Dacia
+    </marque>
+    <modele>
+        Sandero
+    </modele>
+    <portes>
+        5
+    </portes>
+</description>
+
+<!-- renault.xml -->
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE description [
+    <!ELEMENT description (marque, modele, portes)>
+    <!ELEMENT marque (#PCDATA)>
+    <!ELEMENT modele (#PCDATA)>
+    <!ELEMENT portes (#PCDATA)>
+] >
+<description>
+    <marque>
+        Renault
+    </marque>
+    <modele>
+        Clio
+    </modele>
+    <portes>
+        3
+    </portes>
+</description>
