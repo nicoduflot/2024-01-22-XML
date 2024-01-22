@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE rolodex [
     <!ELEMENT rolodex (contact)*>
+        <!ELEMENT contact (nom, prenom*, adresses, emails)>
+        <!ATTLIST contact type (morale | physique) "physique">
+            <!ELEMENT nom (#PCDATA)>
+            <!ELEMENT prenom (#PCDATA | surnom)*>
+                <!ELEMENT surnom (#PCDATA)>
+            <!ELEMENT adresses (adresse*)>
+                <!ELEMENT adresse (numero, voie, codepostal, ville, pays)>
+                <!ATTLIST adresse type (facturation | livraison) #REQUIRED>
+                <!ELEMENT numero (#PCDATA)>
+                <!ELEMENT voie (#PCDATA)>
+                <!ATTLIST voie type ( rue | avenue | boulevard | impasse | place | faubourg | route | chemin | voie | quai | passage | square ) #REQUIRED>
+                <!ELEMENT codepostal (#PCDATA)>
+                <!ELEMENT ville (#PCDATA)>
+                <!ELEMENT pays (#PCDATA)>
+                <!ATTLIST pays codelang CDATA #REQUIRED>
+            <!ELEMENT emails (email+)>
+                <!ELEMENT email (#PCDATA)>
+                <!ATTLIST email type (personnel|professionel) "personnel">
 ]>
 <rolodex>
     <contact type="physique">
@@ -13,7 +31,7 @@
             <adresse type="facturation">
                 <numero>7</numero>
                 <!-- 
-                rue | avenue | boulevard | impasse | place | faubourg | route | chemin | voie 
+                rue | avenue | boulevard | impasse | place | faubourg | route | chemin | voie | quai
                 -->
                 <voie type="impasse">Inmpasse du chemin</voie>
                 <codepostal>75015</codepostal>

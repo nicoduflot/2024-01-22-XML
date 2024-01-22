@@ -375,18 +375,21 @@ Dublin Core
 <!-- 
     entité paramètre
     Elle n'apparait que dans les DTD
-    Elle associe un alias à une partie de la déclaration dans les DTDT
+    Elle associe un alias à une partie de la déclaration dans les DTD
+    NE FONCTIONNE PAS AVEC LES ATTRIBUTS
 -->
-
-<voiture marque="Dacia" />
-<voiture marque="Renault" />
-<voiture marque="Citroën" />
-<!-- DTD Classique pour l'attribut marque -->
-<!ATTLIST voiture marque (Dacia|Renault|Citroën) #REQUIRED>
+<parking>
+    <voiture marque="Dacia" />
+    <voiture marque="Renault" />
+    <voiture marque="Citroën" />
+    <camion marque="BMW" />
+</parking>
+<!-- DTD Classique pour l'élément parking -->
+<!ELEMENT parking (voiture, camion)*>
 
 <!-- avec l'entité paramètre -->
-<!ENTITY % listemarques "marque (Dacia|Renault|Citroën) #REQUIRED">
-<!ATTLIST voiture %listemarque>
+<!ENTITY % lot "(voiture, camion)*">
+<!ELEMENT voiture %lot>
 
 <!-- autre exemple -->
 <!ENTITY % identite "nom?, prenom?">
