@@ -1,0 +1,18 @@
+Les espaces de noms : permet d'utiliser des vocabulaires XML pré-établis
+
+Équivalent de "dialectes" XML qui ont été définis pour des utilisations diverses.
+Plutôt que de redéfinir des dialects à chaque fois qu'on a besoin d'un document XML, on fait appel à eux.
+Pour les utiliser, on défini ce qu'on appel un "espace de nom" => namespace c'est pour ça que dans le document
+on écrira xmlns xml NameSpace.
+Un espace de nom peut être définit par défaut, dans ce cas toutes les balises du document doivent
+appartenir à ce dialecte,
+ou il peut être utilisé partiellement, dans ce cas on lui définit un préfixe qui sera a mettre dans les balises
+faisant référence à ce dialecte.
+
+Un dialecte standard commun existe, le "Dublin Core", https://www.dublincore.org/specifications/dublin-core/dcmi-terms/ ,
+il contient une quinzaine d'éléments dont title, creator, subject et date pour écrire les caractéristiques principale d'un 
+document (métadonnées).
+
+" DocBook " permet de décrire les les métadonnées d'un document https://tdg.docbook.org/tdg/5.1/ 
+
+" XInclude https://www.w3.org/TR/xinclude/ permet d'inclure dans des fichiers XML d'autre fichiers XML
