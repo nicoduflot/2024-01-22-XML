@@ -1,0 +1,30 @@
+Les DTD
+Document Type Definition
+
+Se sont des fichiers de défintions qui permettent de définir une structrue stricte aux document XML
+
+Ces règles permettent de définir la façon dont les document XML doit être écrit, si des balises doivent être absolument présentes ou imposer le type d'une donnée contenue dans une balise.
+
+QUand un XML est soumis à des DTD, il faut vérifier qu'il soit valide, c'est-à-dire conforme aux DTD.
+
+Se sont donc des normes d'écriture, qui sont utiles quand un document est écrit par plusieurs personnes, pour aussi pouvoir le comprendre et l'exploiter, car le XML est un langage qui permet de communiquer des données par le web, donc les normes de formatage sont importantes.
+
+Deux type de DTD : externe et interne
+
+externe : elles sont écrites sur un autre fichier avec l'extension .dtd 
+
+interne : elles sont écrites dans le fichier xml qu'elles définissent.
+
+Syntaxe :
+une balise :
+<!ELEMENT balise (contenu)>
+contenu : ce que va contenir la balise, une donnée ou une autre balise (ordre, fréquence, etc.)
+
+un attribut
+<!ATTLIST balise nomAttribut option>
+
+option 
+    - Le type de la donnée (chaîne de caractère, identifiant, etc.)
+    - des valeurs imposées ou non, par défaut
+    - l'obligation d'avoir l'attribut
+
