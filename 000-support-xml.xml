@@ -984,16 +984,16 @@ Dublin Core
             <adresse>
                 <numero>21</numero>
                 <voie>Baker Street</voie>
-                <codePostal>W1U 8ED</codePostal>
+                <codepostal>W1U 8ED</codepostal>
                 <ville>Londre</ville>
                 <pays>Angleterre</pays>
             </adresse>
         </identite>
         <!-- liste des comptes bancaires du client -->
         <comptes>
-            <compteInteret interets="1.5" nom="Livret A">
+            <compteinteret interets="1.5" nom="Livret A">
                 <montant>2500</montant>
-            </compteInteret>
+            </compteinteret>
             <compte>
                 <montant>4200</montant>
             </compte>
@@ -1002,3 +1002,6 @@ Dublin Core
 </banque>
 
 <!-- faire le xsd "nature"-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    
+</xsd:schema>
