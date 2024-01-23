@@ -1,0 +1,16 @@
+    Autre schéma de validation XML : XSD (Xml Schema Definition)
+    Pourquoi ? 
+    les DTD ne sont pas au format XML, c'est un nouveau langage avec sa propre syntaxe et ses règles.
+    => il faut l'utiliser avec xml et il se peut que certaines API liront le XML et les DTD de façons différentes?
+    Enfin, on ne peut pas typer les données, on indique juste qu'une balise contient ou non des données 
+    mais impossible de préciser si c'est une chaîne de caractère, un nombre, etc.
+    
+    Le xsd permet de typer les données, il est plus précis sur l'écriture des contraintes, il s'écrit en xml, 
+    se stocke dans un fichier externe ayant l'extension .xsd, il utilise comme les fichiers xml un prologue 
+    dont le nom de l'élément racine nous est imposé
+
+    Les xsd sont soit écrits dans un fichier externe (standalone="no").
+
+    Ils s'écrivent dans un fichier avec l'extension .xsd, ils possèdent un prologue proche du prologue des fichiers .xml
+
+    

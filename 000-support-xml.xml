@@ -463,3 +463,107 @@ Dublin Core
         3
     </portes>
 </description>
+
+<!-- XSD : Xml Schema Definition -->
+
+<!-- prologue d'un fichier xsd -->
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- l'élément racine d'un fichier xsd est imposé -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <!-- déclaration du schéma du fichier xml -->
+</xsd:schema>
+<!-- on déclare un espace de nom avec xmlns:xsd, de fait, tous les éléments du xsd seront préfixés par xsd: -->
+
+<!--
+    il faut ensuite rattacher ce fichier de schéma au xml concerné par le xsd
+    il faut déclarer l'attachement du fichier dans la balise racine du xml
+    mais pour appeler ce fichier il faut utiliser le vocabulaire schema-instance
+-->
+
+<!-- xml appelant un xsd en ne décrivant pas d'espace de nom -->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<agenda xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./definition/agenda.xsd">
+    <contact>
+        <nom clientid="CL-001">Durant</nom>
+    </contact>
+    <garage>
+        <voiture client="CL-001">
+            <marque>
+                Opel
+            </marque>
+        </voiture>
+    </garage>
+</agenda>
+
+<!-- si les parties du xml sont définies par différents xsd : on déclare des espace de nom pour chaque xsd -->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<agenda xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemalocation="urn:Contact ./definition/contact.xsd"
+    xsi:schemalocation="urn:Garage ./definition/garage.xsd"
+    >
+    <Contact:contact xmlns:Contact="urn:Contact">
+        <Contact:nom>Durant</Contact:nom>
+    </Contact:contact>
+    <Garage:garage xmlns:Garage="urn:Garage">
+        <Garage:voiture>
+            <Garage:marque>
+                Opel
+            </Garage:marque>
+        </Garage:voiture>
+    </Garage:garage>
+</agenda>
+
+<!-- on peut aussi l'écrire comme ça -->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<agenda xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemalocation="./definition/ agenda.xsd ./definition/ contact.xsd ./definition/ garage.xsd"
+    xmlns:dc="https://www.dublincore.org/specifications/dublin-core/dcmi-terms/" 
+    >
+    <dc:creator>
+        Nicolas Duflot
+    </dc:creator>
+    <contact>
+        <nom>Durant</nom>
+    </contact>
+    <garage>
+        <voiture>
+            <marque>
+                Opel
+            </marque>
+        </voiture>
+    </garage>
+</agenda>
+
+<!-- 
+    Déclaration des éléments
+    Deux type d'éléments : simples et complexes
+
+    Élément simple : 
+    une balise, sans attribut, ne contenant pas d'autre balise, dont le type de donnée contenu est simple
+    
+    Élément comlexe : 
+    une balise qui contient d'autre balise, ou que le type de donnée est complexe, ou qu'elle contient au moins un attribut.
+-->
+
+<!-- ni attribut, ni balise, ni type de donnée complexe : élément simple -->
+<nom>Duflot</nom>
+
+<!-- ou un attribut, ou une autre balise, ou un type de donnée complexe : élément complexe -->
+<personne type="physique">Nicolas Duflot</personne>
+
+<!-- élément complexe, contient d'autres balises -->
+<personne>
+    <!-- élément complexe, un attribut -->
+    <nom type="usage">
+        Duflot
+    </nom>
+    <!-- élément complexe, un attribut -->
+    <nom type="jeune-fille">
+        Decroix
+    </nom>
+    <!-- élément simple, pas d'attribut, pas de balise, donnée type simple -->
+    <prenom>
+        Tiphaine
+    </prenom>
+</personne>
