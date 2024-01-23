@@ -753,7 +753,7 @@ Dublin Core
 <voiture marque="Renault" moteur="essence">Clio</voiture>
 
 <!-- élément prix -->
-<xsd:element>
+<xsd:element name="prix">
     <!-- indiquer qu'il s'agit d'un élément de type complexe -->
     <xsd:complexType>
         <!-- préciser que le contenu est simple -->
@@ -767,3 +767,80 @@ Dublin Core
     </xsd:complexType>
 </xsd:element>
 
+<!-- élément voiture -->
+<xsd:element name="voiture">
+    <xsd:complexType>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="marque" type="xsd:string" />
+                <xsd:attribute name="moteur" type="xsd:string" />
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:element>
+
+<!-- balise avec attribut contenant d'autre balises -->
+<personne type="physique">
+    <prenom>John</prenom>
+    <nom>Doe</nom>
+</personne>
+
+<xsd:element name="personne">
+    <xsd:complexType>
+        <!-- sequence : toutes les balises dclarées à la suite doivent être présentes dans l'ordre indiqué -->
+        <xsd:sequence>
+            <xsd:element name="prenom" type="xsd:string" />
+            <xsd:element name="nom" type="xsd:string" />
+        </xsd:sequence>
+        <!-- une fois que les balises (le contenu complexe) de l'élément sont déclarés, on déclare le ou les attributs de l'élément -->
+        <xsd:attribute name="type" type="xsd:string" />
+    </xsd:complexType>
+</xsd:element>
+
+<!-- ATTENTION : sequence implique que l'ordre des balises dans le XML doivent être du même ordre que dans la déclaration -->
+<!-- en utilisant all au lieu de sequence, il est possible de déclarer les balises contenues dans n'importe quel ordre -->
+
+<!-- balise avec attribut contenant d'autre balises -->
+<personne type="physique">
+    <nom>Doe</nom>
+    <prenom>John</prenom>
+</personne>
+
+<xsd:element name="personne">
+    <xsd:complexType>
+        <!-- all : toutes les balises déclarées à la suite doivent être présentes mais l'ordre importe peu -->
+        <xsd:all>
+            <xsd:element name="prenom" type="xsd:string" />
+            <xsd:element name="nom" type="xsd:string" />
+        </xsd:all>
+        <!-- une fois que les balises (le contenu complexe) de l'élément sont déclarés, on déclare le ou les attributs de l'élément -->
+        <xsd:attribute name="type" type="xsd:string" />
+    </xsd:complexType>
+</xsd:element>
+
+<!-- certaines balises ne sont pas obligatoire, il est possible de les déclarer, dans une liste de choix, utilisée ou non -->
+<personne type="physique">
+    <nom>Doe</nom>
+    <prenom>John</prenom>
+</personne>
+<personne type="Morale">
+    <nom>DoGloboCorp Inc.</nom>
+</personne>
+<personne type="physique">
+    <prenom>Stan le stan</prenom>
+</personne>
+
+<!-- le mot clef choice permet de rendre les balises optionnelles -->
+<xsd:element name="personne">
+    <xsd:complexType>
+        <!-- all : toutes les balises déclarées à la suite doivent être présentes mais l'ordre importe peu -->
+        <xsd:choice>
+            <xsd:element name="prenom" type="xsd:string" />
+            <xsd:element name="nom" type="xsd:string" />
+        </xsd:choice>
+        <!-- une fois que les balises (le contenu complexe) de l'élément sont déclarés, on déclare le ou les attributs de l'élément -->
+        <xsd:attribute name="type" type="xsd:string" />
+    </xsd:complexType>
+</xsd:element>
+
+<!-- un type complexe dans un type complexe -->
