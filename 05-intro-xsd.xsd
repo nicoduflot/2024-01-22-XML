@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="rolodex">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="personne">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="nom" type="xsd:string" />
+                            <xsd:element name="prenom" type="xsd:string" />
+                            <xsd:element name="adresses">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="adresse">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:element name="numero" type="xsd:string" />
+                                                    <xsd:element name="voie" type="xsd:string" />
+                                                    <xsd:element name="codePostal" type="xsd:string" />
+                                                    <xsd:element name="ville" type="xsd:string" />
+                                                </xsd:sequence>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <!-- xsd de la balise emails -->
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

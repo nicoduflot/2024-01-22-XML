@@ -1181,3 +1181,187 @@ Dublin Core
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>
+
+<!-- 
+    Créer ses propres types (comme comptecourant et comptesinterets ) 
+    Deux façons de créer ses propres types : 
+        - par restriction
+        - par Extension (comptecourant et comptesinterets)
+-->
+
+<!-- héritage par restriction -->
+
+<!-- pour un élément -->
+<xsd:element name="nom_element">
+    <xsd:simpleType>
+        <xsd:restriction base="type_de_base" />
+        <!-- type_de_base : le type de la valeur pour la restriction utilisée dans l'héritage -->
+    </xsd:simpleType>
+</xsd:element>
+
+<!-- pour un attribut -->
+<xsd:attribut name="nom_attribut">
+    <xsd:simpleType>
+        <xsd:restriction base="type_de_base" />
+        <!-- type_de_base : le type de la valeur pour la restriction utilisée dans l'héritage -->
+    </xsd:simpleType>
+</xsd:attribut>
+
+<!-- 
+    exemple :  La balise personne possède un attribut age.
+    la valeur de cet attribut doit être entière et positive
+    la valeur de cet attribut doit être strictement supérieur à 17
+    la valeur de cet attribut doit être strictement inférieur à 80
+-->
+
+<personne age="17" /><!-- invalide -->
+<personne age="25" /><!-- valide -->
+<personne age="43" /><!-- valide -->
+<personne age="80" /><!-- invalide -->
+
+<xsd:element name="personne">
+    <xsd:complexType>
+        <!-- crée l'attribut -->
+        <xsd:attribute name="age">
+            <xsd:simpleType>
+                <!-- c'est ici qu'on décrit la ou les restriction -->
+                <xsd:restriction base="nonNegativeInteger">
+                    <xsd:minExclusive value="17" />
+                    <xsd:maxExclusive value="80" />
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+    </xsd:complexType>
+</xsd:element>
+
+<!-- les restrictions s'appliquent de la même manière pour :  
+    minExclusive    permet de définir une valeur minimale exclusive
+    minInclusive    permet de définir une valeur minimale inclusive
+    maxExclusive    permet de définir une valeur maximale exclusive
+    maxInclusive    permet de définir une valeur maximale inclusive
+    totalDigits     permet de définir le nombre exact de chiffres qui composent un nombre
+    fractionDigits  permet de définir le nombre de chiffres autorisés après la virgule
+    length          permet de définir le nombre exact de caractères d'une chaîne
+    minLength       permet de définir le nombre minimum de caractères d'une chaîne
+    maxLength       permet de définir le nombre maximum de caractères d'une chaîne
+-->
+
+<!-- enumeration : liste des valeurs possibles pour un élément (balise ou un attribut) -->
+<!-- valide : physique est dans la liste des valeurs autorisées -->
+<personne raisonsociale="physique">
+    <nom>Duflot</nom>
+</personne>
+<!-- valide : morale est dans la liste des valeurs autorisées -->
+<personne raisonsociale="morale">
+    <nom>Nestlé</nom>
+</personne>
+<!-- invalide : truc n'est pas dans la liste des valeurs autorisées -->
+<personne raisonsociale="truc">
+    <nom>Bob</nom>
+</personne>
+
+<xsd:element name="personne">
+    <xsd:comlpexType>
+        <xsd:element name="nom" type="xsd:string" />
+        <!-- création de l'attribut -->
+        <xsd:attribute name="raisonsociale">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="physique" />
+                    <xsd:enumeration value="morale" />
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+    </xsd:comlpexType>
+</xsd:element>
+
+<!--
+    whitespace  : permet de transformer et gérer les espaces (tabulation, retour à la ligne, espaces simples) dans une balise ou un attribut
+    preserve    : garde les espaces dans la donnée
+    Replace     : remplace tous les espaces par des espaces simples (si espace, tab et retour chariot sont présent, remplacés par trois espaces)
+    Collapse    : remplace tous les espaces par un seul espace simple (si espace, tab et retour chariot sont présent, remplacés par un seul espace)
+-->
+
+<nom>Gérard     
+    Manfroi 
+</nom>
+
+<xsd:element name="nom">
+    <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+            <xsd:whiteSpace value="collapse" />
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:element>
+
+<!-- 
+    la données sera traité comme si le xml était de cette forme 
+    <nom>Gérard Manfroi </nom>
+-->
+<!-- 
+    pattern : détermine un motif de données auquel la valeur de la balise ou de l'attribut 
+    doit correspondre pour être valide 
+-->
+
+<!-- valide -->
+<email>nduflot@dawan.fr</email>
+<!-- invalide -->
+<email>ndudu@dawan</email>
+
+<xsd:element name="email">
+    <xsd:restriction base="xsd:token">
+        <xsd:maxLength value="254" />
+        <xsd:pattern value='(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))' />
+    </xsd:restriction>
+</xsd:element>
+
+<!-- Héritage par extension -->
+<comptes>
+    <compteinteret interets="1.5" nom="Livret A">
+        <montant>2500</montant>
+    </compteinteret>
+    <compte>
+        <montant>4200</montant>
+    </compte>
+</comptes>
+
+<!-- déclaration de l'élément montant -->
+
+<xsd:element name="montant" type="xsd:double" />
+
+<!-- déclarer un type compte courant-->
+
+<xsd:complexType name="comptecourant">
+    <xsd:sequence>
+        <xsd:element ref="montant" />
+    </xsd:sequence>
+</xsd:complexType>
+
+<!-- création du type comptesinterets -->
+<xsd:complexType name="comptesinterets">
+    <xsd:complexType>
+        <xsd:extension base="comptecourant">
+            <xsd:attribute name="interets" type="xsd:float" />
+            <xsd:attribute name="nom" type="xsd:string" />
+        </xsd:extension>
+    </xsd:complexType>
+</xsd:complexType>
+
+<!-- création parties comptes -->
+<xsd:element names="comptes">
+    <xsd:complextype>
+        <xsd:all>
+            <xsd:element name="compte" type="comptecourant" minOccurs="1" />
+            <xsd:element name="compteinteret" type="comptesinterets" 
+                minOccurs="0" 
+                maxOccurs="unbouded" 
+                />
+        </xsd:all>
+    </xsd:complextype>
+</xsd:element>
+
+<!-- 
+    Les identifiants Key et keyRef 
+    Permet d'identifier et de référencer les ressources dans un schéma XML en étant plus précis qu'en utilisant
+    ID et IDREF
+-->

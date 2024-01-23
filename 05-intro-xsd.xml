@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<rolodex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="05-intro-xsd.xsd">
+    <personne>
+        <nom>Duflot</nom>
+        <prenom>Nicolas</prenom>
+        <adresses>
+            <adresse>
+                <numero>3</numero>
+                <voie>Rue du parc</voie>
+                <codePostal>75001</codePostal>
+                <ville>Paris</ville>
+            </adresse>
+        </adresses>
+    </personne>
+</rolodex>
