@@ -567,3 +567,62 @@ Dublin Core
         Tiphaine
     </prenom>
 </personne>
+
+<!-- 
+    Déclarer un élément simple
+    mot clef : element (avec le namespace déterminé pour le schema)
+-->
+
+<nom>Duflot</nom>
+<prenom>Nicolas</prenom>
+<age>43.66</age>
+
+<!-- en xsd -->
+<xsd:element name="nom" type="xsd:string" />
+<xsd:element name="prenom" type="xsd:string" />
+<xsd:element name="age" type="xsd:float" />
+
+<!-- valeur par défaut -->
+<xsd:element name="nom" type="xsd:string" default="Doe" />
+<xsd:element name="prenom" type="xsd:string" default="John" />
+<xsd:element name="age" type="xsd:float" />
+
+<!-- quelques xml validés avec cette définition-->
+<nom>Duflot</nom>
+<prenom>Nicolas</prenom>
+<age>44</age>
+
+<nom></nom> <!-- par défaut "Doe" -->
+<prenom>Nicolas</prenom>
+<age>43</age>
+
+<nom>Duflot</nom>
+<prenom></prenom> <!-- défaut "John" -->
+<age>43</age>
+
+<nom></nom> <!-- par défaut "Doe" -->
+<prenom></prenom> <!-- défaut "John" -->
+<age></age> <!-- age non renseigné mais non obligatoire -->
+
+<!-- 
+    valeurs constantes 
+    Valeur inchangeable, imposée et non valide si vide
+-->
+<xsd:element name="status" type="xsd:string" fixed="Employé·e" />
+<!-- valide -->
+<status>Employé·e</status>
+<!-- Invalide -->
+<status>Alternant</status>
+<!-- Invalide -->
+<status></status>
+
+<!-- 
+    Les attributs
+
+    Se sont par essence des éléments simples, et le mot clef pour les déclarer 
+    n'est pas element mais attribute (ne pas oublier le namespace xsd)
+
+    on déclare un attribut avec les attributs name et type
+-->
+
+<xsd:attribute name="" type="" />
