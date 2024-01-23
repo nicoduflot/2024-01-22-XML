@@ -806,9 +806,10 @@ Dublin Core
     <prenom>John</prenom>
 </personne>
 
+<!-- certaines balises ne sont pas obligatoire, il est possible de les déclarer, dans une liste de choix, utilisée ou non -->
 <xsd:element name="personne">
     <xsd:complexType>
-        <!-- all : toutes les balises déclarées à la suite doivent être présentes mais l'ordre importe peu -->
+        <!-- all : toutes les balises déclarées à la suite peuvent être présentes de 0 à une fois et l'ordre importe peu -->
         <xsd:all>
             <xsd:element name="prenom" type="xsd:string" />
             <xsd:element name="nom" type="xsd:string" />
@@ -818,7 +819,6 @@ Dublin Core
     </xsd:complexType>
 </xsd:element>
 
-<!-- certaines balises ne sont pas obligatoire, il est possible de les déclarer, dans une liste de choix, utilisée ou non -->
 <personne type="physique">
     <nom>Doe</nom>
     <prenom>John</prenom>
@@ -830,13 +830,35 @@ Dublin Core
     <prenom>Stan le stan</prenom>
 </personne>
 
-<!-- le mot clef choice permet de rendre les balises optionnelles -->
 <xsd:element name="personne">
     <xsd:complexType>
-        <!-- all : toutes les balises déclarées à la suite doivent être présentes mais l'ordre importe peu -->
-        <xsd:choice>
+        <xsd:all>
             <xsd:element name="prenom" type="xsd:string" />
             <xsd:element name="nom" type="xsd:string" />
+        </xsd:all>
+        <!-- une fois que les balises (le contenu complexe) de l'élément sont déclarés, on déclare le ou les attributs de l'élément -->
+        <xsd:attribute name="type" type="xsd:string" />
+    </xsd:complexType>
+</xsd:element>
+
+<!-- choice -->
+<!--  Seulement une des balises de la liste doit apparaître dans l'élément parent -->
+<personne type="physique">
+    <employe>Nicolas Duflot</employe>
+</personne>
+<personne type="physique">
+    <client>Khellaf Fouad</client>
+</personne>
+<personne type="physique">
+    <client>Palaric Laurent</client>
+</personne>
+
+<!-- xsd -->
+<xsd:element name="personne">
+    <xsd:complexType>
+        <xsd:choice>
+            <xsd:element name="employee" type="xsd:string" />
+            <xsd:element name="client" type="xsd:string" />
         </xsd:choice>
         <!-- une fois que les balises (le contenu complexe) de l'élément sont déclarés, on déclare le ou les attributs de l'élément -->
         <xsd:attribute name="type" type="xsd:string" />
@@ -844,3 +866,139 @@ Dublin Core
 </xsd:element>
 
 <!-- un type complexe dans un type complexe -->
+<personne>
+    <identite>
+        <nom>Vance</nom>
+        <prenom>Jack</prenom>
+    </identite>
+</personne>
+
+<!-- xsd -->
+<xsd:element name="personne">
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="identite">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="nom" type="xsd:string" />
+                        <xsd:element name="prenom" type="xsd:string" />
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:element>
+
+<!-- contenu mixte -->
+<description>
+    Un·e <objet>console</objet> de <dimension>80x120cm</dimension> au prix de <prix devise="euro">150</prix>
+</description>
+<!-- équivalennt de : -->
+<description>
+    <objet>console</objet>
+    <dimension>80x120cm</dimension>
+    <prix devise="euro">150</prix>
+</description>
+
+<xsd:element name="description">
+    <!-- mais comme description contient aussi autre chose que des balise, il faut préciser que son contenu est mixte -->
+    <xsd:complexType mixed="true">
+        <xsd:sequence>
+            <xsd:element name="objet" type="xsd:string" />
+            <xsd:element name="dimension" type="xsd:string" />
+            <xsd:element name="prix">
+                <xsd:complexType>
+                    <xsd:simpleContent>
+                        <xsd:extension base="xsd:integer">
+                            <xsd:attribute name="devise" type="xsd:string" />
+                        </xsd:extension>
+                    </xsd:simpleContent>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:element>
+
+<!-- nombre d'occurence : nombre minimal et maximal d'occurence d'un élément dans un élément parent -->
+<personne raisonsociale="physique">
+    <nom>Robert</nom>
+    <prenom>Axel</prenom>
+    <prenom>Maurice</prenom>
+    <prenom>Marcel</prenom>
+</personne>
+
+<!-- xsd -->
+<xsd:element name="personne">
+    <xsd:complexType>
+        <xsd:all>
+            <xsd:element name="nom" type="xsd:string" />
+            <xsd:element name="prenom" type="xsd:string" 
+                minOccurs="1" 
+                maxOccurs="3" />
+            <!-- on peut aussi utiliser :
+            <xsd:element name="prenom" type="xsd:string" 
+                maxOccurs="3" />
+            => la valeur par défaut de minOccurs est 1.
+            -->
+        </xsd:all>
+        <xsd:attritbute name="raisonsociale" type="xsd:string" />
+    </xsd:complexType>
+</xsd:element>
+
+<!-- de 0 à X occurence -->
+
+<personne raisonsociale="physique">
+    <nom>Robert</nom>
+    <prenom>Axel</prenom>
+    <prenom>Maurice</prenom>
+    <prenom>Marcel</prenom>
+    <prenom>Jean</prenom>
+    <prenom>Michel</prenom>
+</personne>
+<personne raisonsociale="morale">
+    <nom>GloboCorp Inc.</nom>
+</personne>
+
+<xsd:element name="personne">
+    <xsd:complexType>
+        <xsd:all>
+            <xsd:element name="nom" type="xsd:string" />
+            <xsd:element name="prenom" type="xsd:string" 
+                minOccurs="0" 
+                maxOccurs="unbound" />
+        </xsd:all>
+        <xsd:attritbute name="raisonsociale" type="xsd:string" />
+    </xsd:complexType>
+</xsd:element>
+
+<!-- 
+    réutiliser les types : simplifier l'écriture et la lecture d'un schéma
+-->
+
+<banque>
+    <!-- 1er client -->
+    <client>
+        <identite>
+            <nom>Adams</nom>
+            <prenom>Douglas</prenom>
+            <adresse>
+                <numero>21</numero>
+                <voie>Baker Street</voie>
+                <codePostal>W1U 8ED</codePostal>
+                <ville>Londre</ville>
+                <pays>Angleterre</pays>
+            </adresse>
+        </identite>
+        <!-- liste des comptes bancaires du client -->
+        <comptes>
+            <compteInteret interets="1.5" nom="Livret A">
+                <montant>2500</montant>
+            </compteInteret>
+            <compte>
+                <montant>4200</montant>
+            </compte>
+        </comptes>
+    </client>
+</banque>
+
+<!-- faire le xsd "nature"-->
