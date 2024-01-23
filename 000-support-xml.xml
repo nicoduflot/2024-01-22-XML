@@ -624,5 +624,146 @@ Dublin Core
 
     on déclare un attribut avec les attributs name et type
 -->
+<personne type="physique" />
+<!-- attribut type de personne -->
+<xsd:attribute name="type" type="xsd:string" />
 
-<xsd:attribute name="" type="" />
+<!--
+    la déclaration de cet attribut intervient évidement lors de la déclaration 
+    de l'élément personne, qui lui est un élément complexe, on verra sa déclaration plus tard 
+-->
+
+<!-- Valeurs par défaut, inchangeables (constantes), obligatoires -->
+<!-- valeurs par défaut -->
+<xsd:attribute name="type" type="xsd:string" default="physique" />
+<!-- constante -->
+<xsd:attribute name="devise" type="xsd:string" fixed="euro" />
+<prix devise="euro">12.3</prix> <!-- valide -->
+<prix devise="USD">12.3</prix> <!-- invalide -->
+<prix devise="">12.3</prix> <!-- invalide -->
+<prix>12.3</prix> <!-- invalide car l'attribut déclaré pour prix doit être présent dans prix -->
+
+<!-- attribut obligatoire -->
+<xsd:attribute name="type" type="xsd:string" use="required" />
+<!-- valide -->
+<personne type="physique" />
+<personne type="morale" />
+<!-- invalide -->
+<personne type="" />
+
+<!-- les types de valeurs pour les éléments et les attributs -->
+<!-- string -->
+<xsd:element name="string" type="xsd:string" />
+<string>Karamasov</string>
+<string>Une phrase choc</string>
+<!-- certains caractères spéciaux doivent être écrits sous leur forme HTML -->
+<string>&amp;</string>
+
+<!-- language -->
+<xsd:element name="langue" type="xsd:language" />
+<!-- 
+    norme code langue 
+    deux lettres de base ISO 639 (code de la langue)
+    peut être suivi par deux lettres ISO 3166 (code du pays)
+    xx      (seul le code langue)
+    xx-YY   (code langue-code pays)
+-->
+
+<langue>fr-FR</langue>
+<langue>fr-CA</langue>
+<langue>en</langue>
+<langue>en-US</langue>
+<langue>en-GB</langue>
+<langue>en-CA</langue>
+
+<!-- nmtoken : string sans espace et seulement avec les caractère spéciaux . - _ : -->
+<xsd:attribute name="mytoken" type="xsd:NMTOKEN" />
+<balise mytoken="A:B_b-2.c">Contenu de la balise</balise>
+
+<!-- nmtokens : liste de nmtoken séparé par un espace -->
+<xsd:attribute name="mytokens" type="xsd:NMTOKENS" />
+<balise mytokens="A:B_b-2.c">Contenu de la balise</balise>
+<balise mytokens="A:B_b-2.c AZERTY 123456 toto">Contenu de la balise</balise>
+
+<!-- ID IDREF -->
+<xsd:attribute name="num" type="ID" />
+<xsd:attribute name="parent" type="IDREF" />
+<personne num="P-01">Paul</personne>
+<personne num="P-02">JP</personne>
+<personne num="P-03" parent="P-01">Clotaire</personne>
+<personne num="P-04" parent="P-02">Martin</personne>
+<personne num="P-05" parent="P-02">Camille</personne>
+
+<!-- ID IDREFS -->
+<xsd:attribute name="num" type="ID" />
+<xsd:attribute name="parents" type="IDREFS" />
+<personne num="P-01">Paul</personne>
+<personne num="P-02">JP</personne>
+<personne num="P-03">Marie</personne>
+<personne num="P-04" parents="P-02 P-03">Martin</personne>
+<personne num="P-05" parents="P-01 P-03">Camille</personne>
+<personne num="P-06" parents="P-01">Clotaire</personne>
+<personne num="P-07" parents="P-03">Paul</personne>
+
+<!-- 
+    Entity 
+    entity permet de faire référence à des entités, le plus souvent non XML et déclarés dans les fichiers DTD
+    ce type n'est a utiliser que pour les attributs
+-->
+<!-- déclaration dans le xsd -->
+<xsd:attribute name="marque" type="xsd:ENTITY" />
+<!-- déclaration des entité dans le doctype du xml -->
+<!ENTITY samsung "Samsung">
+<!ENTITY apple "Apple">
+<!-- exemple valide dans le xml -->
+<telephone marque="samsung">Galaxy SII</telephone>
+<telephone marque="apple">Iphone 45</telephone>
+
+<!-- Entities -->
+<xsd:attribute name="marque" type="xsd:ENTITIES" />
+<!-- déclaration des entité dans le doctype du xml -->
+<!ENTITY samsung "Samsung">
+<!ENTITY apple "Apple">
+<!-- exemple valide dans le xml -->
+<telephone marque="samsung apple" />
+
+<!-- les éléments complexes -->
+
+<!-- élément complexe : contient d'autres balises -->
+<personne>
+    <!-- élément complexe, un attribut -->
+    <nom type="usage">
+        Duflot
+    </nom>
+    <!-- élément complexe, un attribut -->
+    <nom type="jeune-fille">
+        Decroix
+    </nom>
+</personne>
+
+<!-- déclaration de personne -->
+<xsd:element name="personne">
+    <xsd:complexType>
+        <!-- déclaration du type complexe de personne -->
+    </xsd:complexType>
+</xsd:element>
+
+<!-- élément complexe avec du contenu simple -->
+<prix devise="euro">5600</prix>
+<voiture marque="Renault" moteur="essence">Clio</voiture>
+
+<!-- élément prix -->
+<xsd:element>
+    <!-- indiquer qu'il s'agit d'un élément de type complexe -->
+    <xsd:complexType>
+        <!-- préciser que le contenu est simple -->
+        <xsd:simpleContent>
+            <!-- déclarer le contenu simple de la balise -->
+            <xsd:extension base="xsd:positiveInteger">
+                <!-- déclarer l'attribut de la balise -->
+                <xsd:attribute name="devise" type="xsd:string" />
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:element>
+
