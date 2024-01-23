@@ -1003,5 +1003,65 @@ Dublin Core
 
 <!-- faire le xsd "nature"-->
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    
+    <xsd:element name="banque">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="client">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="identite">
+                                <xsd:complexType>
+                                    <xsd:all>
+                                        <xsd:element name="nom" minOccurs="1" type="xsd:string" />
+                                        <xsd:element name="prenom" maxOccurs="4" type="xsd:string" />                                      
+                                        <xsd:element name="adresse">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:element name="numero" type="xsd:string" />
+                                                    <xsd:element name="voie" type="xsd:string" />
+                                                    <xsd:element name="codepostal" type="xsd:string" />
+                                                    <xsd:element name="ville" type="xsd:string" />
+                                                    <xsd:element name="pays" type="xsd:string" />
+                                                </xsd:sequence>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:all>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="comptes">
+                                <xsd:complexType>
+                                    <xsd:all>
+                                        <xsd:element name="compteinterets" minOccurs="0" maxOccurs="unbounded">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:element name="montant" type="xsd:double" />
+                                                </xsd:sequence>
+                                                <xsd:attribute name="interets" type="xsd:float" />
+                                                <xsd:attribute name="nom" type="xsd:string" />
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                        <xsd:element name="compte">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:element name="montant" type="xsd:double" />
+                                                </xsd:sequence>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:all>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
 </xsd:schema>
+
+<!-- 
+    les xsd deviennent très difficiles à lire (et à écrire !), on peut les découper  
+    en morceaux réutilisables pour les appliquer et rendre les xsd plus lisibles
+    on utilisera le mot-clef ref
+-->
+
+<!-- on déclare tous les éléments simples qui seront intégré plus tard dans les éléments complexes -->
