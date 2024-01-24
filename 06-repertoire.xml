@@ -2,7 +2,7 @@
 <repertoire xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="06-repertoire.xsd">
     <!-- Amélia EARHART -->
-    <personne type="physique">
+    <personne raisonsociale="physique">
         <nom>EARHART</nom>
         <prenom>Amélia</prenom>
         <adresse>
@@ -20,7 +20,7 @@
         </emails>
     </personne>
     <!-- John WALKER -->
-    <personne type="physique">
+    <personne raisonsociale="physique">
         <nom>WALKER</nom>
         <prenom>John</prenom>
         <adresse>
@@ -40,7 +40,7 @@
         </emails>
     </personne>
     <!-- ACME Inc. -->
-    <personne type="morale">
+    <personne raisonsociale="morale">
         <nom>ACME Inc.</nom>
         <adresse>
             <numero>7</numero>
