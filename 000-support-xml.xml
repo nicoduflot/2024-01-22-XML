@@ -1364,4 +1364,86 @@ Dublin Core
     Les identifiants Key et keyRef 
     Permet d'identifier et de référencer les ressources dans un schéma XML en étant plus précis qu'en utilisant
     ID et IDREF
+    Cela utilise Xpath
 -->
+
+<!-- 
+    Key 
+    un élément composé d'un selector avec l'attribut xpath
+    xpath est le chemin dans l'arbre du xml pour référencer un ou plusieurs autres éléments field (champ)
+    qui possèdent au aussi une expression xpath qui indique l'attribut qui servira d'identifiant
+-->
+
+<xsd:key name="nom_identifiant_de_la_clef">
+    <xsd:selector xpath="expression xpath" />
+    <!-- le ou les champs concernés par la clef -->
+    <xsd:field xpath="expression xpath" />
+</xsd:key>
+
+<!-- avec le xml suivant -->
+<famille>
+    <parent id="par-1" />
+    <enfant id="par-2" parent="par-1" />
+</famille>
+
+<!-- 
+    l'élément famille possède deux éléments : parent et enfant.
+    Chacun possède un attribut unique nommé id.
+    L'enfant possède en plus un attribut parent référent l'id de son parent
+-->
+
+<!-- xsd sans utiliser de référence entre l'attribut id et l'attribut parent -->
+<!-- parent -->
+<xsd:element name="parent">
+    <xsd:complexType>
+        <xsd:attribute name="id" type="xsd:NCName" />
+    </xsd:complexType>
+</xsd:element>
+<!-- enfant -->
+<xsd:element name="enfant">
+    <xsd:complexType>
+        <xsd:attribute name="id" type="xsd:NCName" />
+        <xsd:attribute name="parent" type="xsd:NCName" />
+    </xsd:complexType>
+</xsd:element>
+<!-- famille -->
+
+<xsd:element name="famille">
+    <xsd:complexType>
+        <xsd:all>
+            <xsd:element ref="parent" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element ref="enfant" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:all>
+    </xsd:complexType>
+</xsd:element>
+
+<!-- faire le lien entre les éléments de famille avec key et key ref -->
+<!-- créer une clef identifiant de l'élément parent -->
+<!-- on nommera la clef parentId -->
+<xsd:key name="parentId">
+    <!-- localiser l'élément qui recevra cette clef -->
+    <xsd:selector xpath="/child::parent" />
+    <!-- il faut maintenant désigner dans l'élément quel est l'attribut qui sera la clef nommée parentId -->
+    <xsd:field xpath="attribute::id" />
+</xsd:key>
+<!-- créer une clef identifiant de l'élément enfant -->
+<!-- on nommera la clef enfantId -->
+<xsd:key name="enfantId">
+    <!-- localiser l'élément qui recevra cette clef -->
+    <xsd:selector xpath="/enfant" />
+    <!-- il faut maintenant désigner dans l'élément quel est l'attribut qui sera la clef nommée enfantId -->
+    <xsd:field xpath="@id" />
+</xsd:key>
+<!-- faire le lien entre parentId et l'attribut parent d'un élément enfant -->
+<!-- on déclare une référence de clef (keyref) entre la clef nommée parentId et l'attribut parent de l'élément enfant -->
+<xsd:keyref name="parentIdRef" refer="parentId">
+    <!-- il faut maintenant désigner l'élément ciblé par cette référence de clef -->
+    <xsd:selector xpath="/enfant" />
+    <!-- le champ de l'élément référencé par la clef parentId -->
+    <xsd:field xpath="@parent" />
+</xsd:keyref>
+
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element ref="famille" />
+</xsd:schema>
