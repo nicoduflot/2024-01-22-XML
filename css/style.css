@@ -1,3 +1,8 @@
+.attrList{
+    font-style: italic;
+    list-style-type: none;
+}
+
 body > main,
 body > header, 
 body > footer{

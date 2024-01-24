@@ -48,8 +48,16 @@ function parseXml(xmlData, html =''){
                 let b = cEO('b');
                 cTN(`${element.nodeName}`, b);
                 li.appendChild(b);
-                /* on affiche le nom du conteneur */
-                //console.log(`*${element.nodeName}*`);
+                /* si l'élément possède des attributs */
+                if(element.attributes.length > 0){
+                    let ulAttr = cEO('ul', {class: ['attrList']});
+                    for(attr of element.attributes){
+                        let liAttr = cEO('li');
+                        cTN(`attr : ${attr['name']} => ${attr['value']}`, liAttr);
+                        ulAttr.appendChild(liAttr);
+                    }
+                    li.appendChild(ulAttr);
+                }
                 /* on envoi ce qu'il y a dans le conteneur dans la fonction qui parse, c'est la récursivité */
                 html.appendChild(li);
                 html.appendChild(parseXml(element, html));
@@ -58,8 +66,18 @@ function parseXml(xmlData, html =''){
                 //console.log(`-${element.nodeName}`);
                 let li = cEO('li');         
                 let b = cEO('b');
-                cTN(`${element.nodeName} : ${element.innerHTML}`, b);
+                cTN(`${element.nodeName}`, b);
                 li.appendChild(b);
+                cTN(` : ${element.innerHTML}`, li);
+                if(element.attributes.length > 0){
+                    let ulAttr = cEO('ul', {class: ['attrList']});
+                    for(attr of element.attributes){
+                        let liAttr = cEO('li');
+                        cTN(`attr : ${attr['name']} => ${attr['value']}`, liAttr);
+                        ulAttr.appendChild(liAttr);
+                    }
+                    li.appendChild(ulAttr);
+                }
                 html.appendChild(li);
             }
         }
@@ -79,7 +97,15 @@ window.addEventListener('DOMContentLoaded', function () {
         /* on guette le clic sur chaque bouton */
         button.addEventListener('click', function () {
             /* à chaque click on récupère la ressource */
-            fetch(this.dataset.xmlsource)
+            let ressource = '';
+            if(this.dataset.xmlsource !== ''){
+                ressource = this.dataset.xmlsource;
+            }else{
+                let sourceUrl = document.querySelector('input[name="sourceUrl"').value;
+                ressource = sourceUrl;
+            }
+
+            fetch(ressource)
                 .then(function (reponse) {
                     /* si la ressource existe on récupère sa forme texte */
                     return reponse.text();
