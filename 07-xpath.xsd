@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!-- 
+    déclaration des éléments pour le schema final    
+-->
+<!-- 
+    éléments simples
+-->
+
+<xsd:element name="nom" type="xsd:string" />
+<xsd:element name="prenom" type="xsd:string" />
+<xsd:element name="numero" type="xsd:string" />
+<xsd:element name="codepostal" type="xsd:string" />
+<xsd:element name="ville" type="xsd:string" />
+<xsd:element name="pays" type="xsd:string" />
+
+<!-- éléments complexes sans enfants -->
+<xsd:element name="voie">
+    <xsd:complexType>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="type">
+                    <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                            <xsd:enumeration value="rue" />
+                            <xsd:enumeration value="avenue" />
+                            <xsd:enumeration value="boulevard" />
+                            <xsd:enumeration value="impasse" />
+                            <xsd:enumeration value="place" />
+                            <xsd:enumeration value="faubourg" />
+                            <xsd:enumeration value="route" />
+                            <xsd:enumeration value="chemin" />
+                            <xsd:enumeration value="voie" />
+                            <xsd:enumeration value="quai" />
+                            <xsd:enumeration value="passage" />
+                            <xsd:enumeration value="square" />
+                        </xsd:restriction>
+                    </xsd:simpleType>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="telephone">
+    <xsd:complexType>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="type">
+                    <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                            <xsd:enumeration value="fixe" />
+                            <xsd:enumeration value="bureau" />
+                            <xsd:enumeration value="portable" />
+                        </xsd:restriction>
+                    </xsd:simpleType>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:element>
+
+<!-- création d'un type pour l'email afin d'imposer un restriction au contenu de la balise : l'email doit être d'un format email valide -->
+
+<!--
+     le type s'appellera formatEmail, on le crée avec un héritage par restriction utilisant pattern
+-->
+
+<xsd:simpleType name="formatEmail">
+    <xsd:restriction base="xsd:token">
+        <xsd:maxLength value="254" />
+        <xsd:pattern value='([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,22})' />
+    </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:element name="email">
+    <xsd:complexType>
+        <xsd:simpleContent>
+            <xsd:extension base="formatEmail">
+                <xsd:attribute name="type">
+                    <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                            <xsd:enumeration value="personnel" />
+                            <xsd:enumeration value="professionnel" />
+                        </xsd:restriction>
+                    </xsd:simpleType>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:element>
+
+<!-- élément adresse -->
+<xsd:element name="adresse">
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element ref="numero" />
+            <xsd:element ref="voie" />
+            <xsd:element ref="codepostal" />
+            <xsd:element ref="ville" />
+            <xsd:element ref="pays" />
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:element>
+
+<!-- élément telephones -->
+
+<xsd:element name="telephones">
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element ref="telephone" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:element>
+
+<!-- élément emails -->
+<xsd:element name="emails">
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element ref="email" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:element>
+
+<!-- élément personne -->
+<xsd:element name="personne">
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element ref="nom" />
+            <xsd:element ref="prenom" minOccurs="0" maxOccurs="3" />
+            <xsd:element ref="adresse" />
+            <xsd:element ref="telephones" />
+            <xsd:element ref="emails" />
+        </xsd:sequence>
+        <xsd:attribute name="raisonsociale">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="physique" />
+                    <xsd:enumeration value="morale" />
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+    </xsd:complexType>
+</xsd:element>
+
+
+    <xsd:element name="repertoire">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="personne" minOccurs="0" maxOccurs="unbounded" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

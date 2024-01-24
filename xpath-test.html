@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p id="demo"></p>
+
+<script>
+
+fetch('books.xml')
+.then(function(reponse){
+	console.log(reponse);
+	return reponse.text();
+})
+.then(function(data){
+
+	const parser = new DOMParser();
+    
+    const xmlDoc = parser.parseFromString(data, 'application/xml');
+    
+    showResult(xmlDoc);
+    
+})
+.catch(function(erreur){
+    error.log(erreur);
+})
+.finally(function(){
+    console.log('Fin de la transaction');
+})
+
+function showResult(xml) {
+    let txt = "";
+    path = "/bookstore/book/title"
+    if (xml.evaluate) {
+        const nodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
+        let result = nodes.iterateNext();
+        while (result) {
+            txt += result.childNodes[0].nodeValue + "<br>";
+            result = nodes.iterateNext();
+        } 
+    // Code For Internet Explorer
+    } else if (window.ActiveXObject || xhttp.responseType == "msxml-document") {
+        xml.setProperty("SelectionLanguage", "XPath");
+        nodes = xml.selectNodes(path);
+        for (i = 0; i < nodes.length; i++) {
+            txt += nodes[i].childNodes[0].nodeValue + "<br>";
+        }
+    }
+    document.getElementById("demo").innerHTML = txt;
+}
+</script>
+
+</body>
+</html>

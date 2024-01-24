@@ -1,161 +1,170 @@
-
-X-Path
+* X-Path
 
 C'est un moyen de cibler un élément dans "l'arbre XML"
 
-    Chemins absolus et relatifs
+Chemins absolus et relatifs
 
-    Absolu
+Absolu
 
-    on part de la racine vers un élément du document (xml, html)
-    ici /repertoire est le départ (la racine) du chemin xpath en absolu
-    Si je veux récupérer toutes les balises téléphone avec l'attribut type="fixe"
+on part de la racine vers un élément du document (xml, html)
+ici /repertoire est le départ (la racine) du chemin xpath en absolu
+Si je veux récupérer toutes les balises <telephone> avec l'attribut type="fixe"
 
-    racine répertoire
-        noeud enfant personne
-            noeud enfant telephones
-                noeuds enfants telephone avec type="fixe"
+racine répertoire
+    noeud enfant personne
+        noeud enfant telephones
+            noeuds enfants telephone avec attribut type="fixe"
 
-    /repertoire/personne/telephones/telephone type="fixe"
+/repertoire/personne/telephones/telephone[@type="fixe"]
 
-    Relatif
+Relatif
 
-    on ne part pas de la racine mais d'un élément (noeud) déterminé, et en empruntant des axes, on récupère les informations selon des directive précises
+on ne part pas de la racine mais d'un élément (noeud) déterminé, et en empruntant des axes, on récupère les informations selon des directive précises
 
-    retrouver les noms des personnes ayant un numéro de téléphone avec type="portable"
+retrouver les noms des personnes ayant un numéro de téléphone avec type="portable"
 
-    noeud telephone type="portable"
-        remonter au noeud parent telephones
-            aller sur le noeud frère nom
+noeud telephone type="portable"
+    remonter au noeud parent telephones
+        aller sur le noeud frère nom
 
-    telephone type="portable" => axe noeud parent = noeud frère nom 
+telephone type="portable" => axe noeud parent = noeud frère nom 
 
-    On localise alors les données par :
-        - un axe (la direction d'un endroit vers un autre, vers les ancètres, les descendants ou les frères et soeurs)
-        - un noeud ciblé
-        - facultatif : un ou plusieurs prédicats => des condition sur le noeud ciblé / parcourus
-            - les attributs (présence, non présence + valeur donnée ou liste de valeurs données )
-            - la position (nième, le premier, le dernier, etc.)
+On localise alors les données par : 
+    - un axe (la direction d'un endroit vers un autre, vers les ancètres, les descendants ou les frères et soeurs)
+    - un noeud ciblé
+    - facultatif : un ou plusieurs prédicats => des conditions sur le / les noeud·s ciblé·s / parcouru·s
+        - les attributs (présence, non présence + valeur donnée ou liste de valeurs données )
+        - la position (nième, le premier, le dernier, etc.)
 
-    axe::noeud[predicat][predicat]...[predicat]/axe::noeud[predicat][predicat]...[predicat]
+axe::noeud[predicat][predicat]...[predicat]/axe::noeud[predicat][predicat]...[predicat]
 
-    exemple de chemin absolu
+exemple de chemin absolu
 
-    depuis le xml repertoire, repérer en chemin absolu le pays où vivent les personnes
+depuis le xml repertoire, repérer en chemin absolu le pays où vivent les personnes
 
-    1 noeud répertoire
-    2 noeud personne
-    3 noeud adresse
-    4 noeud pays
+1 noeud répertoire
+2 noeud personne
+3 noeud adresse
+4 noeud pays
 
-    chaque étape au format xpath
+chaque étape au format xpath
 
-    1 child::repertoire
-    2 child::personne
-    3 child::adresse
-    4 child::pays
+1 child::repertoire
+2 child::personne
+3 child::adresse
+4 child::pays
 
-    le chemin complet en xpath
+le chemin complet en xpath
 
-    /child::repertoire/child::personne/child::adresse/child::pays
+/child::repertoire/child::personne/child::adresse/child::pays
 
-    child c'est la direction (l'axe) par défaut, on peut ne pas l'écrire
+child c'est la direction (l'axe) par défaut, on peut ne pas l'écrire
 
-    /repertoire/personne/adresse/pays
+/repertoire/personne/adresse/pays
 
-    depuis la racine, repérer tous les commentaires des noeuds descendants
+depuis la racine, repérer tous les commentaires des noeuds descendants
 
-    /descendant::comment()
+/descendant::comment()
 
-    depuis la racine, repérer tous les contenus texte des noeuds descendants
-    /descendant::text()
+depuis la racine, repérer tous les contenus texte des noeuds descendants
+/descendant::text()
 
-    exemple de chemin relatif
+exemple de chemin relatif
 
-    depuis telephones, repérer le pays indiqué dans adresse
-    1 remonter  au noeud frère précédent adresse
-    2 descendre au noeud enfant pays
+depuis telephones, repérer le pays indiqué dans adresse
+1 remonter  au noeud frère précédent adresse
+2 descendre au noeud enfant pays
 
-    /descendant-or-self-node::node()/telephones/preceding-sibling::adresse/pays
+/descendant-or-self-node::node()/telephones/preceding-sibling::adresse/pays
 
-    on va devoir dire à xpath, sur XML Copy editor, que l'on pars des déscendant du noeud ou de lui même
+on va devoir dire à xpath, sur XML Copy editor, que l'on pars des déscendant du noeud ou de lui même
 
-    /descendant-or-self-node::node()/ => //
-    /descendant-or-self-node::node()/telephones => //telephones
+/descendant-or-self-node::node()/ => //
+/descendant-or-self-node::node()/telephones => //telephones
 
-    //telephones/preceding-sibling::adresse/pays
+//telephones/preceding-sibling::adresse/pays
 
-    Quelques abbréviation
+Les noms des personnes ayant inscrit un email personnel
 
-    /descendant-or-self-node::node()/ => //
+//email[@type="personnel"]/../../nom
 
-    self::node() => .
+on part d'un élément <email> avec l'attribut type = à personnel, on remonte au parent <emails>, puis au parent <personne> et depuis <personne> à l'enfant <nom>
 
-    /repertoire/personne/adresse/self::node()
-    /repertoire/personne/adresse/. 
-    //adresse/.
+//email[@type="personnel"]/../preceding-sibling::nom
 
-    Vers un noeud parent en chemin relatif
+on part d'un élément <email> avec l'attribut type = à personnel, on remonte au parent <emails>, ensuite on cherche dans les noeuds frères précédents l'élément <nom>
 
-    parent::node() => ..
+Quelques abbréviation
 
-    //email/../../telephones/telephone
+/descendant-or-self-node::node()/ => //
 
-    Prédicats
+self::node() => .
 
-    téléphone avec l'attribut type = bureau depuis email
+/repertoire/personne/adresse/self::node()
+/repertoire/personne/adresse/. 
+//adresse/.
 
-    //email/../../telephones/telephone[attribute::type="bureau"]
+Vers un noeud parent en chemin relatif
 
-    il existe des wildcards, par exemple le caractère * représente n'importe quelle suite de caractère
+parent::node() => ..
 
-    //*[attribute::type] => mauvaise méthode car on récupère tous les noeud possedant un attribut nommé type
+//email/../../telephones/telephone
 
-    une bonne méthode 
-    //telephone[attribute::type="bureau"]
+Prédicats
 
-    ! => non (abbreviation de not() )
-    tous les téléphone non fixe
+téléphone avec l'attribut type = bureau depuis email
 
-    //telephone[not(attribute::type="fixe")]
+//email/../../telephones/telephone[attribute::type="bureau"]
 
-    //telephone[attribute::type!="fixe"]
+il existe des wildcards, par exemple le caractère * représente n'importe quelle suite de caractère
 
-    tous les telephone non fixe et non professionnel
+//*[attribute::type] => mauvaise méthode car on récupère tous les noeud possedant un attribut nommé type
 
-    //telephone[not(attribute::type="fixe")][not(attribute::type="bureau")]
+une bonne méthode 
+//telephone[attribute::type="bureau"]
 
-    //telephone[attribute::type!="fixe"][attribute::type!="bureau"]
+! => non (abbreviation de not() )
+tous les téléphone non fixe
 
-    dernier élément telephone
+//telephone[not(attribute::type="fixe")]
 
-    /descendant::telephone[last()]
+//telephone[attribute::type!="fixe"]
 
-    tous les derniers éléments telephone
-    //telephone[last()]
+tous les telephone non fixe et non bureau
 
-    position() => la position (de 1 à x) des éléments dans la liste xpath
-    last() le dernier élément de la liste
-    les balises telephone dont la position est strictement inférieure à la valeur de la position de la dernière balise de la liste
-    /descendant::telephone[position() < last()]
+//telephone[not(attribute::type="fixe")][not(attribute::type="bureau")]
 
-    Position : premier élément telephone
-    /descendant::telephone[position() = 1]
+//telephone[attribute::type!="fixe"][attribute::type!="bureau"]
 
-    compter tous les éléments d'un xml
+dernier élément telephone
 
-    count(//*) compte tous les noeuds du xml
-    count(//text()) compte tous les noeuds texte du xml
-    count(//comment()) compte tous les noeuds commentaires du xml
-    count(//telephone) compte tous les noeuds telephone du xml
+/descendant::telephone[last()]
 
-    count(/descendant::telephone[last()]) compte tous les noeud qui sont "le dernier noeud telephone" 0 (s'il n'y en a pas) ou 1
+tous les derniers éléments telephone
+//telephone[last()]
 
-    Abreviation
-    les attributs peuvent être abrégé avec de attribute:: à @
+position() => la position (de 1 à x) des éléments dans la liste xpath
+last() le dernier élément de la liste
+les balises telephone dont la position est strictement inférieure à la valeur de la position de la dernière balise de la liste
+/descendant::telephone[position() < last()]
 
-    /descendant::telephone[attribute::type!="professionnel"][attribute::type!="bureau"]
+Position : premier élément telephone
+/descendant::telephone[position() = 1]
 
-    /descendant::telephone[@type!="professionnel"][@type!="bureau"]
+compter tous les éléments d'un xml
 
-    //telephone[@type!="professionnel"][@type!="bureau"]
+count(//*) compte tous les noeuds du xml
+count(//text()) compte tous les noeuds texte du xml
+count(//comment()) compte tous les noeuds commentaires du xml
+count(//telephone) compte tous les noeuds telephone du xml
+
+count(/descendant::telephone[last()]) compte tous les noeud qui sont "le dernier noeud telephone" 0 (s'il n'y en a pas) ou 1
+
+Abreviation
+les attributs peuvent être abrégé avec de attribute:: à @
+
+/descendant::telephone[attribute::type!="professionnel"][attribute::type!="bureau"]
+
+/descendant::telephone[@type!="professionnel"][@type!="bureau"]
+
+//telephone[@type!="professionnel"][@type!="bureau"]
