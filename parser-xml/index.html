@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parser XML</title>
+    <link rel="stylesheet" href="./css/bootstrap-reboot.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src="./js/sripts.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Parser XML</h1>
+    </header>
+    <nav>
+        <ul>
+            <li>
+                <a href="../index.html">Retour accueil</a>
+            </li>
+            <li>
+                <a href="./xpath-test.html" title="parser xml avec xpath">xpath parser</a>
+            </li>
+        </ul>
+    </nav>
+    <main>
+        <article>
+            <h2>Les ressources</h2>
+            <p>
+                <label>Url source</label>
+                <input type="text" name="sourceUrl" />
+                <hr />
+                <button data-action="read-xml" data-xmlsource="">
+                    Lire la ressource indiquée
+                </button>
+            </p>
+            <p>
+                <button data-xmlsource="./01-premier-xml.xml" data-action="read-xml" data-root="rolodex">
+                    01 premier xml
+                </button>
+            </p>
+            <p>
+                <button data-xmlsource="./07-xpath.xml" data-action="read-xml" data-root="repertoire">
+                    07 xpath
+                </button>
+            </p>
+            <p>
+                <button data-xmlsource="https://rss.nytimes.com/services/xml/rss/nyt/Movies.xml" data-action="read-xml"  data-root="channel">
+                    NYT Movies RSS
+                </button>
+            </p>
+            <p>
+                <button data-xmlsource="https://rss.nytimes.com/services/xml/rss/nyt/Music.xml" data-action="read-xml"  data-root="channel">
+                    NYT Music RSS
+                </button>
+            </p>
+        </article>
+        <article>
+            <h2>Contenu des ressources</h2>
+            <div class="xml-content">
+                <div></div>
+            </div>
+        </article>
+    </main>
+    <footer>
+        DAWAN - &copy; 2024
+    </footer>
+</body>
+<script>
+    console.log('fin chargement de la page')
+</script>
+</html>

@@ -4,6 +4,7 @@
 }
 
 body > main,
+body > nav,
 body > header, 
 body > footer{
     margin-left: auto;

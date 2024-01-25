@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- 
+    Le prologue
+    La première ligne d'un document XML, elle donne les informations de traitement.
+
+    Version : la versio XML utilisée, il y en a deux, 1.0 et 1.1
+    Le W3C préconise d'utiliser la 1.0
+
+    encoding : le codage des caractères, le jeu de caractère qui sera utilisé dans le document.
+    De base, on utilise UTF-8 (Universal charaster set TransFormation 8 bits).
+    Certains éditeurs enregistrent sois le format ISO8859-1 (il suffit de le changer dans le prologue).
+
+    Standalone : l'autonomie du document, est-t'il rattaché à un autre (par exemple les schémas qui vont normer le XML comme les DTD ou XSD), ce fichier est "seul", donc la valeur "yes" est indiquée
+
+-->
+
+<!-- Élément racine -->
+<rolodex lang="fr">
+    <!-- une entrée du rolodex -->
+    <contact type="physique">
+        <nom>Durand</nom>
+        <prenom>Jean</prenom>
+        <adresses>
+            <adresse type="facturation">
+                <numero>7</numero>
+                <voie type="Impasse">Inmpasse du chemin</voie>
+                <codepostal>75015</codepostal>
+                <ville>Paris</ville>
+                <pays codelang="fr-FR">FRANCE</pays>
+            </adresse>
+            <adresse type="livraison">
+                <numero>7</numero>
+                <voie type="Impasse">Inmpasse du chemin</voie>
+                <codepostal>75015</codepostal>
+                <ville>Paris</ville>
+                <pays codelang="fr-FR">FRANCE</pays>
+            </adresse>
+            <adresse type="livraison">
+                <numero>1</numero>
+                <voie type="rue">Rue de la paix</voie>
+                <codepostal>75001</codepostal>
+                <ville>Paris</ville>
+                <pays codelang="fr-FR">FRANCE</pays>
+            </adresse>
+        </adresses>
+        <emails>
+            <email type="personnel">jean_durand@yahoo.fr</email>
+            <email type="professionel">jdurand@acme.com</email>
+        </emails>
+    </contact>
+    <!-- une entrée du rolodex -->
+    <contact type="morale">
+        <nom>Acme Inc.</nom>
+        <adresses>
+            <adresse type="facturation">
+                <numero>7</numero>
+                <voie type="Impasse">Inmpasse du chemin</voie>
+                <codepostal>75015</codepostal>
+                <ville>Paris</ville>
+                <pays codelang="fr-FR">FRANCE</pays>
+            </adresse>
+            <adresse type="livraison">
+                <numero>7</numero>
+                <voie type="Impasse">Inmpasse du chemin</voie>
+                <codepostal>75015</codepostal>
+                <ville>Paris</ville>
+                <pays codelang="fr-FR">FRANCE</pays>
+            </adresse>
+            <adresse type="livraison">
+                <numero>1</numero>
+                <voie type="rue">Rue de la paix</voie>
+                <codepostal>75001</codepostal>
+                <ville>Paris</ville>
+                <pays codelang="fr-FR">FRANCE</pays>
+            </adresse>
+        </adresses>
+        <emails>
+            <email type="professionel">contact@acme.com</email>
+            <email type="professionel">sav@acme.com</email>
+            <email type="professionel">evenement@acme.com</email>
+        </emails>
+    </contact>
+</rolodex>

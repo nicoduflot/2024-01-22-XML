@@ -1,0 +1,52 @@
+.attrList{
+    font-style: italic;
+    list-style-type: none;
+}
+
+div#demo, 
+pre#xml{
+    max-height: 50vh;
+    overflow: auto;
+    width: 100%;
+    border: 1px solid black;
+    padding: 1rem;
+}
+
+
+body > main,
+body > header, 
+body > footer,
+body > nav{
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}
+
+@media (min-width: 576px) {
+    
+}
+
+@media (min-width: 768px){
+    div.demo{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    div#demo, 
+    pre#xml{
+    width: 50%;
+}
+}
+
+@media (min-width: 992px) {
+
+}
+
+@media (min-width: 1200px) {
+    
+}
+
+@media (min-width: 1400px) {
+
+}

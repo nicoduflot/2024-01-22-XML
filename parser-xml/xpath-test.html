@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xpath lab parser</title>
+    <link rel="stylesheet" href="./css/bootstrap-reboot.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script>
+        function showResult(xml, path) {
+            let txt = '';
+            if (xml.evaluate) {
+                const nodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
+                let result = nodes.iterateNext();
+                while (result) {
+                    if (result.children.length > 0) {
+                        let elementList = Array.from(result.children);
+                        txt = `${txt}  <hr />`;
+                        elementList.forEach(element => {
+                            console.log(element);
+                            txt = `${txt} ${element.tagName} : ${element.textContent} <br />`;
+                        });
+                    } else {
+                        txt = `${txt} ${result.childNodes[0].nodeValue} <hr />`;
+                    }
+                    result = nodes.iterateNext();
+                }
+            }
+            document.getElementById("demo").innerHTML = txt;
+        }
+
+        function launchEvalXPath(xpath) {
+            fetch('books.xml')
+                .then(function (reponse) {
+                    return reponse.text();
+                })
+                .then(function (data) {
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(data, 'application/xml');
+                    showResult(xmlDoc, xpath);
+                })
+                .catch(function (erreur) {
+                    console.log(erreur);
+                })
+                .finally(function () {
+                    console.log('Fin de la transaction');
+                })
+        }
+        window.addEventListener('DOMContentLoaded', function () {
+            const resetRes = document.querySelector('button[data-action="reset"]');
+            const xpathButton = document.querySelector('button[data-action="eval-xpath"]');
+            let xpathInput = document.querySelector('input[name="sourcexpath"]');
+            let xpath = '/bookstore/book/title';
+
+            xpathButton.addEventListener('click', function () {
+                if (xpathInput.value !== '') {
+                    xpath = xpathInput.value;
+                }
+                launchEvalXPath(xpath);
+            });
+
+            xpathInput.addEventListener('keyup', function (event) {
+                if (event.key === 'Enter') {
+                    if (xpathInput.value !== '') {
+                        xpath = xpathInput.value;
+                    }
+                    launchEvalXPath(xpath);
+                }
+            })
+
+            resetRes.addEventListener('click', function () {
+                document.getElementById("demo").innerHTML = '';
+            });
+
+            /* afficher le xml de books */
+
+            fetch('./books.xml')
+                .then(function (reponse) {
+                    /* si la ressource existe on récupère sa forme texte */
+                    return reponse.text();
+                })
+                .then(function (xmlFlux) {
+                    document.querySelector('pre#xml').textContent = xmlFlux;
+                    
+                })
+                .catch(function (erreur) {
+                    console.log(erreur);
+                })
+                .finally(function () {
+                    console.log('Fin de la transaction');
+                })
+
+        });
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>Xpath évaluation</h1>
+    </header>
+    <nav>
+        <ul>
+            <li>
+                <a href="../index.html">Retour accueil</a>
+            </li>
+            <li>
+                <a href="./index.html" title="xml parser">xml parser</a>
+            </li>
+        </ul>
+    </nav>
+    <main id="xpathEval">
+        <article>
+            <h2>Chercher une ressource xml et évaluer xpath</h2>
+            <p>
+            <p>
+                <label>x-path recherché dans books.xml</label> <input type="text" name="sourcexpath"
+                    placeholder="/bookstore/book/title" />
+                <hr />
+                <button data-action="eval-xpath" data-xmlxpath="">
+                    Afficher resultat(s) xpath
+                </button>
+                <button data-action="reset">
+                    Effacer résultats
+                </button>
+            </p>
+            </p>
+            <h3>Evaluation xpath : </h3>
+            <div class="demo">
+                <div id="demo"></div>
+                <pre id="xml"></pre>
+            </div>
+        </article>
+    </main>
+</body>
+
+</html>
