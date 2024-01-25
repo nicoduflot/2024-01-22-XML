@@ -236,7 +236,7 @@ En xml
 ```
 <xsd:element name="langue" type="xsd:language" />
 ```
-**Norme code langue **
+**Norme code langue**
 >deux lettres de base ISO 639 (code de la langue)
 peut être suivi par deux lettres ISO 3166 (code du pays)
 - xx      (seul le code langue)
@@ -269,7 +269,7 @@ En xml
 <balise mytokens="A:B_b-2.c">Contenu de la balise</balise>
 <balise mytokens="A:B_b-2.c AZERTY 123456 toto">Contenu de la balise</balise>
 ```
-**ID &amp; IDREF
+**ID &amp; IDREF**
 ```
 <xsd:attribute name="num" type="ID" />
 <xsd:attribute name="parent" type="IDREF" />
@@ -325,13 +325,13 @@ Exemple valide dans le xml
 <!ENTITY samsung "Samsung">
 <!ENTITY apple "Apple">
 ```
-**exemple valide dans le xml
+**exemple valide dans le xml**
 ```
 <telephone marque="samsung apple" />
 ```
 ## les éléments complexes
 
-###élément complexe : contient d'autres balises
+### élément complexe : contient d'autres balises
 ```
 <personne>
     <!-- élément complexe, un attribut -->
@@ -344,7 +344,7 @@ Exemple valide dans le xml
     </nom>
 </personne>
 ```
-**Déclaration de personne
+**Déclaration de personne**
 ```
 <xsd:element name="personne">
     <xsd:complexType>
@@ -386,12 +386,15 @@ Exemple valide dans le xml
     </xsd:complexType>
 </xsd:element>
 ```
-<!-- balise avec attribut contenant d'autre balises -->
+#### balise avec attribut contenant d'autre balises
+```
 <personne type="physique">
     <prenom>John</prenom>
     <nom>Doe</nom>
 </personne>
-
+```
+**En xsd**
+```
 <xsd:element name="personne">
     <xsd:complexType>
         <!-- sequence : toutes les balises dclarées à la suite doivent être présentes dans l'ordre indiqué -->
@@ -403,17 +406,18 @@ Exemple valide dans le xml
         <xsd:attribute name="type" type="xsd:string" />
     </xsd:complexType>
 </xsd:element>
-
-<!-- ATTENTION : sequence implique que l'ordre des balises dans le XML doivent être du même ordre que dans la déclaration -->
-<!-- en utilisant all au lieu de sequence, il est possible de déclarer les balises contenues dans n'importe quel ordre -->
-
-<!-- balise avec attribut contenant d'autre balises -->
+```
+> **ATTENTION** : sequence implique que l'ordre des balises dans le XML doivent être du même ordre que dans la déclaration.
+En utilisant all au lieu de sequence, il est possible de déclarer les balises contenues dans n'importe quel ordre
+#### balise avec attribut contenant d'autre balises
+```
 <personne type="physique">
     <nom>Doe</nom>
     <prenom>John</prenom>
 </personne>
-
-<!-- certaines balises ne sont pas obligatoire, il est possible de les déclarer, dans une liste de choix, utilisée ou non -->
+```
+Certaines balises ne sont pas obligatoire, il est possible de les déclarer, dans une liste de choix, utilisée ou non
+```
 <xsd:element name="personne">
     <xsd:complexType>
         <!-- all : toutes les balises déclarées à la suite peuvent être présentes de 0 à une fois et l'ordre importe peu -->
@@ -425,7 +429,8 @@ Exemple valide dans le xml
         <xsd:attribute name="type" type="xsd:string" />
     </xsd:complexType>
 </xsd:element>
-
+```
+```
 <personne type="physique">
     <nom>Doe</nom>
     <prenom>John</prenom>
@@ -436,7 +441,9 @@ Exemple valide dans le xml
 <personne type="physique">
     <prenom>Stan le stan</prenom>
 </personne>
-
+```
+En xsd
+```
 <xsd:element name="personne">
     <xsd:complexType>
         <xsd:all>
@@ -447,9 +454,10 @@ Exemple valide dans le xml
         <xsd:attribute name="type" type="xsd:string" />
     </xsd:complexType>
 </xsd:element>
-
-<!-- choice -->
-<!--  Seulement une des balises de la liste doit apparaître dans l'élément parent -->
+```
+**Choice**
+Seulement une des balises de la liste doit apparaître dans l'élément parent
+```
 <personne type="physique">
     <employe>Nicolas Duflot</employe>
 </personne>
@@ -459,8 +467,9 @@ Exemple valide dans le xml
 <personne type="physique">
     <client>Palaric Laurent</client>
 </personne>
-
-<!-- xsd -->
+```
+En xsd
+```
 <xsd:element name="personne">
     <xsd:complexType>
         <xsd:choice>
@@ -471,16 +480,18 @@ Exemple valide dans le xml
         <xsd:attribute name="type" type="xsd:string" />
     </xsd:complexType>
 </xsd:element>
-
-<!-- un type complexe dans un type complexe -->
+```
+**Un type complexe dans un type complexe**
+```
 <personne>
     <identite>
         <nom>Vance</nom>
         <prenom>Jack</prenom>
     </identite>
 </personne>
-
-<!-- xsd -->
+```
+En xsd
+```
 <xsd:element name="personne">
     <xsd:complexType>
         <xsd:sequence>
@@ -495,8 +506,9 @@ Exemple valide dans le xml
         </xsd:sequence>
     </xsd:complexType>
 </xsd:element>
-
-<!-- contenu mixte -->
+```
+**Contenu mixte**
+```
 <description>
     Un·e <objet>console</objet> de <dimension>80x120cm</dimension> au prix de <prix devise="euro">150</prix>
 </description>
@@ -506,7 +518,9 @@ Exemple valide dans le xml
     <dimension>80x120cm</dimension>
     <prix devise="euro">150</prix>
 </description>
-
+```
+En xsd
+```
 <xsd:element name="description">
     <!-- mais comme description contient aussi autre chose que des balise, il faut préciser que son contenu est mixte -->
     <xsd:complexType mixed="true">
@@ -525,16 +539,19 @@ Exemple valide dans le xml
         </xsd:sequence>
     </xsd:complexType>
 </xsd:element>
-
-<!-- nombre d'occurence : nombre minimal et maximal d'occurence d'un élément dans un élément parent -->
+```
+**Nombre d'occurence**
+Nombre minimal et maximal d'occurence d'un élément dans un élément parent
+```
 <personne raisonsociale="physique">
     <nom>Robert</nom>
     <prenom>Axel</prenom>
     <prenom>Maurice</prenom>
     <prenom>Marcel</prenom>
 </personne>
-
-<!-- xsd -->
+```
+En xsd
+```
 <xsd:element name="personne">
     <xsd:complexType>
         <xsd:all>
@@ -551,9 +568,9 @@ Exemple valide dans le xml
         <xsd:attritbute name="raisonsociale" type="xsd:string" />
     </xsd:complexType>
 </xsd:element>
-
-<!-- de 0 à X occurence -->
-
+```
+**De 0 à X occurence**
+```
 <personne raisonsociale="physique">
     <nom>Robert</nom>
     <prenom>Axel</prenom>
@@ -565,7 +582,9 @@ Exemple valide dans le xml
 <personne raisonsociale="morale">
     <nom>GloboCorp Inc.</nom>
 </personne>
-
+```
+En xsd
+```
 <xsd:element name="personne">
     <xsd:complexType>
         <xsd:all>
@@ -577,11 +596,10 @@ Exemple valide dans le xml
         <xsd:attritbute name="raisonsociale" type="xsd:string" />
     </xsd:complexType>
 </xsd:element>
-
-<!-- 
-    réutiliser les types : simplifier l'écriture et la lecture d'un schéma
--->
-
+```
+### Réutiliser les types
+Simplifier l'écriture et la lecture d'un schéma
+```
 <banque>
     <!-- 1er client -->
     <client>
@@ -607,8 +625,9 @@ Exemple valide dans le xml
         </comptes>
     </client>
 </banque>
-
-<!-- faire le xsd "nature"-->
+```
+**Faire le xsd "nature"**
+```
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:element name="banque">
         <xsd:complexType>
@@ -664,23 +683,23 @@ Exemple valide dans le xml
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>
+```
+les xsd deviennent très difficiles à lire (et à écrire !), on peut les découper en morceaux réutilisables pour les appliquer et rendre les xsd plus lisibles on utilisera le mot-clef ref
 
-<!-- 
-    les xsd deviennent très difficiles à lire (et à écrire !), on peut les découper  
-    en morceaux réutilisables pour les appliquer et rendre les xsd plus lisibles
-    on utilisera le mot-clef ref
--->
-
-<!-- on déclare tous les éléments simples qui seront intégré plus tard dans les éléments complexes -->
+En xsd :
+On déclare tous les éléments simples qui seront intégré plus tard dans les éléments complexes
+```
 <xsd:element name="numero" type="xsd:string" />
 <xsd:element name="voie" type="xsd:string" />
 <xsd:element name="codepostal" type="xsd:string" />
 <xsd:element name="ville" type="xsd:string" />
 <xsd:element name="pays" type="xsd:string" />
 <xsd:element name="montant" type="xsd:double" />
+```
+On peut créer des groupe d'élément
 
-<!-- on peut créer des groupe d'élément -->
-<!-- créer le groupe d'élément de l'adresse -->
+Créer le groupe d'élément de l'adresse
+```
 <xsd:group name="grp-adresse">
     <xsd:sequence>
         <xsd:element ref="numero" />
@@ -690,16 +709,17 @@ Exemple valide dans le xml
         <xsd:element ref="pays" />
     </xsd:sequence>
 </xsd:group>
-
-<!-- créer l'élément adresse -->
+```
+Créer l'élément adresse
+```
 <xsd:element name="adresse">
     <xsd:complexType>
         <xsd:group ref="grp-adresse" />
     </xsd:complexType>
 </xsd:element>
-
-<!-- créer le groupe des éléments contenus dans identite -->
-
+```
+Créer le groupe des éléments contenus dans identite
+```
 <xsd:group name="grp-identite">
     <xsd:sequence>
         <xsd:element ref="nom" />
@@ -707,45 +727,44 @@ Exemple valide dans le xml
         <xsd:element ref="adresse" />
     </xsd:sequence>
 </xsd:group>
-
-<!-- créer l'élément identité -->
+```
+Créer l'élément identité
+```
 <xsd:element name="identite">
     <xsd:complexType>
         <xsd:group ref="grp-identite" />
     </xsd:complexType>
 </xsd:element>
-
-<!-- 
-    on peut créer ses propres types car ici, livret A et compte courant ont le même format 
-    on déclare donc ses propre types
-    ex déclaration d'un type simple
-    ____________________________________
-    <xsd:simpleType name="mon_type_perso">
-        <xsd:restriction>
-            ....
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <xsd:element name="mon_element" type="mon_type_perso" />
-
-    déclaration de type complexe
-    _______________________________
-    <xsd:complexType name="mon_type_complexe">
+```
+on peut créer ses propres types car ici, livret A et compte courant ont le même format 
+on déclare donc ses propre types
+#### Déclaration d'un type simple
+```
+<xsd:simpleType name="mon_type_perso">
+    <xsd:restriction>
         ....
-    </xsd:complexType>
+    </xsd:restriction>
+</xsd:simpleType>
+<xsd:element name="mon_element" type="mon_type_perso" />
+```
+#### Déclaration de type complexe
+```
+<xsd:complexType name="mon_type_complexe">
+    ....
+</xsd:complexType>
 
-    <xsd:element name="mon_element_type_complexe" type="mon_type_complexe" />
--->
-
-<!-- déclarer un type compte courant-->
-
+<xsd:element name="mon_element_type_complexe" type="mon_type_complexe" />
+```
+Déclarer un type compte courant
+```
 <xsd:complexType name="comptecourant">
     <xsd:sequence>
         <xsd:element ref="montant" />
     </xsd:sequence>
 </xsd:complexType>
-
-<!-- création du type comptesinterets -->
+```
+Création du type comptesinterets
+```
 <xsd:complexType name="comptesinterets">
     <xsd:complexType>
         <xsd:extension base="comptecourant">
@@ -754,8 +773,9 @@ Exemple valide dans le xml
         </xsd:extension>
     </xsd:complexType>
 </xsd:complexType>
-
-<!-- création parties comptes -->
+```
+Création parties comptes
+```
 <xsd:element names="comptes">
     <xsd:complextype>
         <xsd:all>
@@ -767,8 +787,9 @@ Exemple valide dans le xml
         </xsd:all>
     </xsd:complextype>
 </xsd:element>
-
-<!-- création de la partie client -->
+```
+Création de la partie client
+```
 <xsd:element name="client">
     <xsd:complexType>
         <xsd:sequence>
@@ -777,9 +798,11 @@ Exemple valide dans le xml
         </xsd:sequence>
     </xsd:complexType>
 </xsd:element>
-
-<!-- schema final xsd -->
+```
+Schema final xsd
+```
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <!-- c'est dans cette partie qu'on écrit les éléments créés précédemment -->
     <xsd:element name="banque">
         <xsd:complexType>
             <xsd:sequence>
@@ -788,44 +811,45 @@ Exemple valide dans le xml
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>
+```
+### Créer ses propres types (comme comptecourant et comptesinterets ) 
+Deux façons de créer ses propres types : 
+- par restriction
+- par Extension (comptecourant et comptesinterets)
 
-<!-- 
-    Créer ses propres types (comme comptecourant et comptesinterets ) 
-    Deux façons de créer ses propres types : 
-        - par restriction
-        - par Extension (comptecourant et comptesinterets)
--->
-
-<!-- héritage par restriction -->
-
-<!-- pour un élément -->
+#### héritage par restriction
+Pour un élément
+```
 <xsd:element name="nom_element">
     <xsd:simpleType>
         <xsd:restriction base="type_de_base" />
         <!-- type_de_base : le type de la valeur pour la restriction utilisée dans l'héritage -->
     </xsd:simpleType>
 </xsd:element>
-
-<!-- pour un attribut -->
+```
+Pour un attribut
+```
 <xsd:attribut name="nom_attribut">
     <xsd:simpleType>
         <xsd:restriction base="type_de_base" />
         <!-- type_de_base : le type de la valeur pour la restriction utilisée dans l'héritage -->
     </xsd:simpleType>
 </xsd:attribut>
+```
+exemple :  La balise personne possède un attribut age.
+- la valeur de cet attribut doit être entière et positive
+- la valeur de cet attribut doit être strictement supérieur à 17
+- la valeur de cet attribut doit être strictement inférieur à 80
 
-<!-- 
-    exemple :  La balise personne possède un attribut age.
-    la valeur de cet attribut doit être entière et positive
-    la valeur de cet attribut doit être strictement supérieur à 17
-    la valeur de cet attribut doit être strictement inférieur à 80
--->
-
+En xml : 
+```
 <personne age="17" /><!-- invalide -->
 <personne age="25" /><!-- valide -->
 <personne age="43" /><!-- valide -->
 <personne age="80" /><!-- invalide -->
-
+```
+Le xsd
+```
 <xsd:element name="personne">
     <xsd:complexType>
         <!-- crée l'attribut -->
@@ -840,20 +864,23 @@ Exemple valide dans le xml
         </xsd:attribute>
     </xsd:complexType>
 </xsd:element>
+```
+Les restrictions s'appliquent de la même manière pour :  
+|Restriction     |Fonction                                                              |
+|----------------|----------------------------------------------------------------------|
+|minExclusive    |permet de définir une valeur minimale exclusive                       |
+|minInclusive    |permet de définir une valeur minimale inclusive                       |
+|maxExclusive    |permet de définir une valeur maximale exclusive                       |
+|maxInclusive    |permet de définir une valeur maximale inclusive                       |
+|totalDigits     |permet de définir le nombre exact de chiffres quicomposent un nombre  |
+|fractionDigits  |permet de définir le nombre de chiffres autorisésaprès la virgule     |
+|length          |permet de définir le nombre exact de caractèresd'une chaîne           |
+|minLength       |permet de définir le nombre minimum de caractèresd'une chaîne         |
+|maxLength       |permet de définir le nombre maximum de caractèresd'une chaîne         |
 
-<!-- les restrictions s'appliquent de la même manière pour :  
-    minExclusive    permet de définir une valeur minimale exclusive
-    minInclusive    permet de définir une valeur minimale inclusive
-    maxExclusive    permet de définir une valeur maximale exclusive
-    maxInclusive    permet de définir une valeur maximale inclusive
-    totalDigits     permet de définir le nombre exact de chiffres qui composent un nombre
-    fractionDigits  permet de définir le nombre de chiffres autorisés après la virgule
-    length          permet de définir le nombre exact de caractères d'une chaîne
-    minLength       permet de définir le nombre minimum de caractères d'une chaîne
-    maxLength       permet de définir le nombre maximum de caractères d'une chaîne
--->
-
-<!-- enumeration : liste des valeurs possibles pour un élément (balise ou un attribut) -->
+**Enumeration**
+liste des valeurs possibles pour un élément (balise ou un attribut)
+```
 <!-- valide : physique est dans la liste des valeurs autorisées -->
 <personne raisonsociale="physique">
     <nom>Duflot</nom>
@@ -866,7 +893,9 @@ Exemple valide dans le xml
 <personne raisonsociale="truc">
     <nom>Bob</nom>
 </personne>
-
+```
+Le xsd
+```
 <xsd:element name="personne">
     <xsd:comlpexType>
         <xsd:element name="nom" type="xsd:string" />
@@ -881,18 +910,23 @@ Exemple valide dans le xml
         </xsd:attribute>
     </xsd:comlpexType>
 </xsd:element>
+```
+**whitespace**
+permet de transformer et gérer les espaces (tabulation, retour à la ligne, espaces simples) dans une balise ou un attribut
 
-<!--
-    whitespace  : permet de transformer et gérer les espaces (tabulation, retour à la ligne, espaces simples) dans une balise ou un attribut
-    preserve    : garde les espaces dans la donnée
-    Replace     : remplace tous les espaces par des espaces simples (si espace, tab et retour chariot sont présent, remplacés par trois espaces)
-    Collapse    : remplace tous les espaces par un seul espace simple (si espace, tab et retour chariot sont présent, remplacés par un seul espace)
--->
+|Valeur      |Fonction                                                                                                                          |
+|------------|----------------------------------------------------------------------------------------------------------------------------------|
+|preserve    |garde les espaces dans la donnée                                                                                                  |
+|Replace     |remplace tous les espaces par des espaces simples (si espace, tab et retour chariot sont présent, remplacés par trois espaces)    |
+|Collapse    |remplace tous les espaces par un seul espace simple (si espace, tab et retour chariot sont présent, remplacés par un seul espace) |
 
+```
 <nom>Gérard     
     Manfroi 
 </nom>
-
+```
+En xsd
+```
 <xsd:element name="nom">
     <xsd:simpleType>
         <xsd:restriction base="xsd:string">
@@ -900,29 +934,30 @@ Exemple valide dans le xml
         </xsd:restriction>
     </xsd:simpleType>
 </xsd:element>
-
-<!-- 
-    la données sera traité comme si le xml était de cette forme 
-    <nom>Gérard Manfroi </nom>
--->
-<!-- 
-    pattern : détermine un motif de données auquel la valeur de la balise ou de l'attribut 
-    doit correspondre pour être valide 
--->
-
+```
+la données sera traité comme si le xml était de cette forme
+```
+<nom>Gérard Manfroi </nom>
+```
+**pattern**
+Détermine un motif de données auquel la valeur de la balise ou de l'attribut doit correspondre pour être valide 
+```
 <!-- valide -->
 <email>nduflot@dawan.fr</email>
 <!-- invalide -->
 <email>ndudu@dawan</email>
-
+```
+En xsd
+```
 <xsd:element name="email">
     <xsd:restriction base="xsd:token">
         <xsd:maxLength value="254" />
         <xsd:pattern value='(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))' />
     </xsd:restriction>
 </xsd:element>
-
-<!-- Héritage par extension -->
+```
+#### Héritage par extension
+```
 <comptes>
     <compteinteret interets="1.5" nom="Livret A">
         <montant>2500</montant>
@@ -931,20 +966,21 @@ Exemple valide dans le xml
         <montant>4200</montant>
     </compte>
 </comptes>
-
-<!-- déclaration de l'élément montant -->
-
+```
+Déclaration de l'élément montant
+```
 <xsd:element name="montant" type="xsd:double" />
-
-<!-- déclarer un type compte courant-->
-
+```
+Déclarer un type compte courant
+```
 <xsd:complexType name="comptecourant">
     <xsd:sequence>
         <xsd:element ref="montant" />
     </xsd:sequence>
 </xsd:complexType>
-
-<!-- création du type comptesinterets -->
+```
+Création du type comptesinterets
+```
 <xsd:complexType name="comptesinterets">
     <xsd:complexType>
         <xsd:extension base="comptecourant">
@@ -953,8 +989,9 @@ Exemple valide dans le xml
         </xsd:extension>
     </xsd:complexType>
 </xsd:complexType>
-
-<!-- création parties comptes -->
+```
+Création parties comptes
+```
 <xsd:element names="comptes">
     <xsd:complextype>
         <xsd:all>
@@ -966,55 +1003,52 @@ Exemple valide dans le xml
         </xsd:all>
     </xsd:complextype>
 </xsd:element>
-
-<!-- 
-    Les identifiants Key et keyRef 
-    Permet d'identifier et de référencer les ressources dans un schéma XML en étant plus précis qu'en utilisant
-    ID et IDREF
-    Cela utilise Xpath
--->
-
-<!-- 
-    Key 
-    un élément composé d'un selector avec l'attribut xpath
-    xpath est le chemin dans l'arbre du xml pour référencer un ou plusieurs autres éléments field (champ)
-    qui possèdent au aussi une expression xpath qui indique l'attribut qui servira d'identifiant
--->
-
+```
+#### Les identifiants Key et keyRef
+Permet d'identifier et de référencer les ressources dans un schéma XML en étant plus précis qu'en utilisant
+ID et IDREF
+Cela utilise Xpath
+**Key**
+un élément composé d'un selector avec l'attribut xpath
+xpath est le chemin dans l'arbre du xml pour référencer un ou plusieurs autres éléments field (champ)
+qui possèdent au aussi une expression xpath qui indique l'attribut qui servira d'identifiant
+```
 <xsd:key name="nom_identifiant_de_la_clef">
     <xsd:selector xpath="expression xpath" />
     <!-- le ou les champs concernés par la clef -->
     <xsd:field xpath="expression xpath" />
 </xsd:key>
-
-<!-- avec le xml suivant -->
+```
+Avec le xml suivant
+```
 <famille>
     <parent id="par-1" />
     <enfant id="par-2" parent="par-1" />
 </famille>
-
-<!-- 
-    l'élément famille possède deux éléments : parent et enfant.
-    Chacun possède un attribut unique nommé id.
-    L'enfant possède en plus un attribut parent référent l'id de son parent
--->
-
-<!-- xsd sans utiliser de référence entre l'attribut id et l'attribut parent -->
-<!-- parent -->
+```
+L'élément famille possède deux éléments : parent et enfant.
+Chacun possède un attribut unique nommé id.
+L'enfant possède en plus un attribut parent référent l'id de son parent
+**xsd sans utiliser de référence entre l'attribut id et l'attribut parent**
+parent
+```
 <xsd:element name="parent">
     <xsd:complexType>
         <xsd:attribute name="id" type="xsd:NCName" />
     </xsd:complexType>
 </xsd:element>
-<!-- enfant -->
+```
+enfant
+```
 <xsd:element name="enfant">
     <xsd:complexType>
         <xsd:attribute name="id" type="xsd:NCName" />
         <xsd:attribute name="parent" type="xsd:NCName" />
     </xsd:complexType>
 </xsd:element>
-<!-- famille -->
-
+```
+famille
+```
 <xsd:element name="famille">
     <xsd:complexType>
         <xsd:all>
@@ -1023,34 +1057,39 @@ Exemple valide dans le xml
         </xsd:all>
     </xsd:complexType>
 </xsd:element>
-
-<!-- faire le lien entre les éléments de famille avec key et key ref -->
-<!-- créer une clef identifiant de l'élément parent -->
-<!-- on nommera la clef parentId -->
+```
+faire le lien entre les éléments de famille avec key et key ref
+créer une clef identifiant de l'élément parent
+on nommera la clef parentId
+```
 <xsd:key name="parentId">
     <!-- localiser l'élément qui recevra cette clef -->
     <xsd:selector xpath="/child::parent" />
     <!-- il faut maintenant désigner dans l'élément quel est l'attribut qui sera la clef nommée parentId -->
     <xsd:field xpath="attribute::id" />
 </xsd:key>
-<!-- créer une clef identifiant de l'élément enfant -->
-<!-- on nommera la clef enfantId -->
+```
+Créer une clef identifiant de l'élément enfant
+On nommera la clef enfantId
+```
 <xsd:key name="enfantId">
     <!-- localiser l'élément qui recevra cette clef -->
     <xsd:selector xpath="/enfant" />
     <!-- il faut maintenant désigner dans l'élément quel est l'attribut qui sera la clef nommée enfantId -->
     <xsd:field xpath="@id" />
 </xsd:key>
-<!-- faire le lien entre parentId et l'attribut parent d'un élément enfant -->
-<!-- on déclare une référence de clef (keyref) entre la clef nommée parentId et l'attribut parent de l'élément enfant -->
-<xsd:keyref name="parentIdRef" refer="parentId">
-    <!-- il faut maintenant désigner l'élément ciblé par cette référence de clef -->
-    <xsd:selector xpath="/enfant" />
-    <!-- le champ de l'élément référencé par la clef parentId -->
-    <xsd:field xpath="@parent" />
-</xsd:keyref>
+```
+Faire le lien entre parentId et l'attribut parent d'un élément enfant
 
-
+on déclare une référence de clef (keyref) entre la clef nommée parentId et l'attribut parent de l'élément enfant
+```
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:keyref name="parentIdRef" refer="parentId">
+        <!-- il faut maintenant désigner l'élément ciblé par cette référence de clef -->
+        <xsd:selector xpath="/enfant" />
+        <!-- le champ de l'élément référencé par la clef parentId -->
+        <xsd:field xpath="@parent" />
+    </xsd:keyref>
     <xsd:element ref="famille" />
 </xsd:schema>
+```
