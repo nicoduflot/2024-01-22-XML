@@ -63,7 +63,6 @@ function parseXml(xmlData, html =''){
                 html.appendChild(parseXml(element, html));
             }else{
                 /* s'il n'i a pas d'enfant, on sort de l'élément et on passe à l'élément suivent */
-                //console.log(`-${element.nodeName}`);
                 let li = cEO('li');         
                 let b = cEO('b');
                 cTN(`${element.nodeName}`, b);
@@ -120,11 +119,9 @@ window.addEventListener('DOMContentLoaded', function () {
                     if(xmlDoc.children[0].tagName === 'rss'){
                         /* si c'est du rss, on récupère le DOM à l'intérieur de la balise prologue <rss ... ></rss> */
                         data = xmlDoc.children[0].children[0];
-                        console.log(data);
                     }else{
                         /* si ce n'est pas du rss, on récupère directement le contenu du xml */
                         data = xmlDoc.children[0];
-                        //console.log(data);
                     }
 
                     /* on envoi les données dans notre fonction qui servira a afficher la source à l'écran */
