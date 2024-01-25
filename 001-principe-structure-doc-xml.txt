@@ -96,9 +96,68 @@ un prologue
 Une balise racine, c'est elle qui est l'ancètre des toutes les informations du document
 
 Un document XML bien formé suit donc les règles suivantes : 
- - Un prologue xml (contenant la version xml utilisée et s'il est seul ou s'il utilise un document de formatage)
- - le document ne contient qu'une seule balise racine
- - le nom des balises et des attributs respectent les règles de nommage.
- - Les balises paires sont bien fermées
- - les valeurs des attributs sont contenues entre des guillemets simples ou doubles.
- - les balises du document ne se chevauchent pas, il y a une arborescence cohérente dans le document.
+- Un prologue xml (contenant la version xml utilisée et s'il est seul ou s'il utilise un document de formatage)
+- le document ne contient qu'une seule balise racine
+- le nom des balises et des attributs respectent les règles de nommage.
+- Les balises paires sont bien fermées
+- les valeurs des attributs sont contenues entre des guillemets simples ou doubles.
+- les balises du document ne se chevauchent pas, il y a une arborescence cohérente dans le document.
+
+Structure d'un fichier en détail.
+
+Le prologue 
+
+La première ligne d'un document XML, elle donne les informations de traitement.
+
+Version : la versio XML utilisée, il y en a deux, 1.0 et 1.1
+Le W3C préconise d'utiliser la 1.0
+
+encoding : le codage des caractères, le jeu de caractère qui sera utilisé dans le document.
+De base, on utilise UTF-8 (Universal charaster set TransFormation 8 bits).
+Certains éditeurs enregistrent sois le format ISO8859-1 (il suffit de le changer dans le prologue).
+
+Standalone : l'autonomie du document, est-t'il rattaché à un autre (par exemple les schémas qui vont normer le XML comme les DTD ou XSD), ce fichier est "seul", donc la valeur "yes" est indiquée
+
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+Élément racine
+
+C'est l'élément principal qui contiendra le jeu de données.
+
+<!-- Élément racine -->
+<rolodex lang="fr">
+    <!-- une entrée du rolodex -->
+    <contact type="physique">
+        <nom>Durand</nom>
+        <prenom>Jean</prenom>
+        <adresses>
+            <adresse type="facturation">
+                <numero>7</numero>
+                <voie type="Impasse">Inmpasse du chemin</voie>
+                <codepostal>75015</codepostal>
+                <ville>Paris</ville>
+                <pays codelang="fr-FR">FRANCE</pays>
+            </adresse>
+            <adresse type="livraison">
+                <numero>7</numero>
+                <voie type="Impasse">Inmpasse du chemin</voie>
+                <codepostal>75015</codepostal>
+                <ville>Paris</ville>
+                <pays codelang="fr-FR">FRANCE</pays>
+            </adresse>
+            <adresse type="livraison">
+                <numero>1</numero>
+                <voie type="rue">Rue de la paix</voie>
+                <codepostal>75001</codepostal>
+                <ville>Paris</ville>
+                <pays codelang="fr-FR">FRANCE</pays>
+            </adresse>
+        </adresses>
+        <emails>
+            <email type="personnel">jean_durand@yahoo.fr</email>
+            <email type="professionel">jdurand@acme.com</email>
+        </emails>
+    </contact>
+    <!-- d'autres entrées du rolodex -->
+    
+</rolodex>
